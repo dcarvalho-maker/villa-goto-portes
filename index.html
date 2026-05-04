@@ -1,0 +1,1437 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Villa Goto — Red White Group</title>
+<style>
+  :root {
+    --ink: #1a1a1a;
+    --muted: #6b6b6b;
+    --rule: #d8d4cb;
+    --paper: #fbfaf7;
+    --tag: #e9e4d8;
+    --accent: #8a6a3b;
+    --warn: #b34141;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: var(--ink);
+    background: var(--paper);
+    line-height: 1.45;
+    font-size: 14px;
+  }
+
+  /* === Language toggle === */
+  body[lang="fr"] [lang="pl"] { display: none !important; }
+  body[lang="pl"] [lang="fr"] { display: none !important; }
+
+  .lang-bar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(251, 250, 247, 0.96);
+    backdrop-filter: saturate(120%) blur(6px);
+    -webkit-backdrop-filter: saturate(120%) blur(6px);
+    border-bottom: 1px solid var(--rule);
+    padding: 12px 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .lang-bar .brand-mini {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+  }
+  .lang-bar .brand-mini strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+  .lang-toggle {
+    display: inline-flex;
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    background: #fff;
+    padding: 3px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .lang-toggle button {
+    border: 0;
+    background: transparent;
+    padding: 6px 16px;
+    font-size: 12px;
+    border-radius: 999px;
+    cursor: pointer;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+    font-family: inherit;
+  }
+  .lang-toggle button.active {
+    background: var(--ink);
+    color: #fff;
+  }
+  .lang-toggle button:hover:not(.active) {
+    color: var(--ink);
+  }
+
+  /* === Cover === */
+  header.cover {
+    padding: 48px 64px 40px;
+    border-bottom: 1px solid var(--rule);
+  }
+  header.cover .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+  header.cover h1 {
+    font-size: 40px;
+    font-weight: 300;
+    margin: 0 0 8px;
+    letter-spacing: -0.01em;
+  }
+  header.cover h2 {
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--muted);
+    margin: 0 0 24px;
+  }
+  header.cover .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
+    margin-top: 24px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  header.cover .meta span strong {
+    display: block;
+    color: var(--ink);
+    font-weight: 500;
+    font-size: 13px;
+    margin-top: 2px;
+  }
+
+  /* === TOC === */
+  nav.toc {
+    padding: 32px 64px;
+    border-bottom: 1px solid var(--rule);
+    background: #fff;
+  }
+  nav.toc h3 {
+    margin: 0 0 16px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    font-weight: 500;
+  }
+  nav.toc ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 8px 32px;
+  }
+  nav.toc ol li {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    padding: 6px 0;
+    border-bottom: 1px dotted var(--rule);
+  }
+  nav.toc ol li .num {
+    font-variant-numeric: tabular-nums;
+    color: var(--muted);
+    font-size: 12px;
+    width: 32px;
+  }
+  nav.toc ol li a {
+    color: var(--ink);
+    text-decoration: none;
+    flex: 1;
+  }
+  nav.toc ol li a:hover { color: var(--accent); }
+  nav.toc ol li .ref {
+    font-size: 11px;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  main { padding: 0 64px 64px; }
+
+  /* === Fiche === */
+  article.fiche {
+    border-bottom: 1px solid var(--rule);
+    padding: 48px 0;
+    page-break-after: always;
+    break-after: page;
+  }
+  article.fiche:last-of-type { border-bottom: none; }
+
+  .fiche-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 24px;
+    margin-bottom: 24px;
+  }
+  .fiche-head .num-wrap {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+  }
+  .fiche-head .num {
+    font-size: 48px;
+    font-weight: 200;
+    color: var(--accent);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .fiche-head h2 {
+    font-size: 22px;
+    font-weight: 400;
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+  .fiche-head h2 small {
+    display: block;
+    font-size: 12px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    margin-bottom: 4px;
+    font-weight: 500;
+  }
+  .fiche-head .ref-block {
+    text-align: right;
+    font-size: 11px;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+  }
+  .fiche-head .ref-block strong {
+    display: block;
+    color: var(--ink);
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  .fiche-body {
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    gap: 32px;
+  }
+  @media (max-width: 1000px) {
+    .fiche-body { grid-template-columns: 1fr; }
+    main, header.cover, nav.toc, .lang-bar { padding-left: 24px; padding-right: 24px; }
+  }
+
+  /* === Plan image with branding overlay === */
+  figure.plan {
+    margin: 0;
+    border: 1px solid var(--rule);
+    background: #fff;
+    padding: 8px;
+  }
+  .plan-img-wrap {
+    position: relative;
+    line-height: 0;
+  }
+  .plan-img-wrap img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  /* White cartouche overlay covering the bottom-right title block */
+  .plan-img-wrap .brand-overlay {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 23%;
+    height: 32%;
+    background: #fff;
+    border-left: 1px solid #c8c4ba;
+    border-top: 1px solid #c8c4ba;
+    padding: 6% 5%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    line-height: 1.25;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    overflow: hidden;
+  }
+  .plan-img-wrap .brand-overlay .rwg {
+    font-size: clamp(10px, 1.3vw, 17px);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--ink);
+    line-height: 1.1;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 8px;
+  }
+  .plan-img-wrap .brand-overlay .rwg-meta {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 3px 8px;
+    font-size: clamp(7px, 0.7vw, 10px);
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+    overflow: hidden;
+  }
+  .plan-img-wrap .brand-overlay .rwg-meta .lab {
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.9em;
+    white-space: nowrap;
+  }
+  .plan-img-wrap .brand-overlay .rwg-meta span:not(.lab) {
+    text-align: right;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  figure.plan figcaption {
+    font-size: 11px;
+    color: var(--muted);
+    text-align: center;
+    padding: 8px 0 2px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    line-height: 1.4;
+  }
+
+  /* === Floor-plan hover swap === */
+  .plan-img-wrap .locator {
+    position: absolute;
+    width: 5.5%;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    border: 3px solid #d63a3a;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity .15s ease;
+    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.85),
+                0 0 0 6px rgba(214, 58, 58, 0.18);
+  }
+  .plan-img-wrap.floor-mode .locator { opacity: 1; animation: rwgPulse 1.6s ease-in-out infinite; }
+  .plan-img-wrap.floor-mode .brand-overlay { opacity: 0; transition: opacity .15s ease; }
+  .plan-img-wrap .floor-tag {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: #1a1a1a;
+    color: #fff;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 5px 10px;
+    border-radius: 2px;
+    opacity: 0;
+    transition: opacity .15s ease;
+    pointer-events: none;
+  }
+  .plan-img-wrap.floor-mode .floor-tag { opacity: 1; }
+
+  @keyframes rwgPulse {
+    0%, 100% { box-shadow: 0 0 0 4px rgba(255,255,255,0.85), 0 0 0 6px rgba(214,58,58,0.20); }
+    50%      { box-shadow: 0 0 0 4px rgba(255,255,255,0.85), 0 0 0 18px rgba(214,58,58,0.04); }
+  }
+
+  .doors-list li[data-floor-img] {
+    cursor: crosshair;
+    transition: background-color .15s ease, padding-left .15s ease;
+    margin: 0 -8px;
+    padding-left: 8px;
+    padding-right: 8px;
+    border-radius: 3px;
+  }
+  .doors-list li[data-floor-img]:hover {
+    background: #fdf3f3;
+    padding-left: 12px;
+  }
+  .doors-list li[data-floor-img] .pname::before {
+    content: "◉ ";
+    color: #d63a3a;
+    font-size: 0.85em;
+    margin-right: 2px;
+    opacity: 0.6;
+  }
+
+  /* === Infos column === */
+  .infos h3 {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--muted);
+    font-weight: 500;
+    margin: 0 0 8px;
+    padding-top: 4px;
+    border-top: 1px solid var(--rule);
+  }
+  .infos h3:first-child { border-top: none; padding-top: 0; }
+
+  .doors-list {
+    margin: 0 0 18px;
+    padding: 0;
+    list-style: none;
+  }
+  .doors-list li {
+    padding: 8px 0;
+    border-bottom: 1px dotted var(--rule);
+    display: grid;
+    grid-template-columns: 70px 1fr;
+    gap: 12px;
+    font-size: 13px;
+  }
+  .doors-list li .pname {
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+  .doors-list li .ploc {
+    color: var(--muted);
+    font-size: 12px;
+    margin-top: 2px;
+  }
+  .badge {
+    display: inline-block;
+    background: var(--tag);
+    color: var(--ink);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 2px 8px;
+    margin-left: 6px;
+    border-radius: 2px;
+  }
+  .badge.warn { background: #f8dada; color: var(--warn); }
+
+  table.dims {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    margin-bottom: 18px;
+  }
+  table.dims th, table.dims td {
+    text-align: left;
+    padding: 5px 8px 5px 0;
+    border-bottom: 1px dotted var(--rule);
+    vertical-align: top;
+  }
+  table.dims th {
+    color: var(--muted);
+    font-weight: 500;
+    width: 42%;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  table.dims td {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .mat-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 18px;
+  }
+  .mat-tags .mat {
+    font-size: 11px;
+    background: #fff;
+    border: 1px solid var(--rule);
+    padding: 4px 10px;
+    border-radius: 2px;
+    font-variant-numeric: tabular-nums;
+  }
+  .mat-tags .mat strong {
+    color: var(--accent);
+    margin-right: 4px;
+  }
+
+  .notes {
+    font-size: 12px;
+    color: var(--muted);
+    border-left: 2px solid var(--accent);
+    padding: 4px 0 4px 12px;
+    margin: 0;
+  }
+
+  footer {
+    padding: 24px 64px;
+    font-size: 11px;
+    color: var(--muted);
+    border-top: 1px solid var(--rule);
+    text-align: center;
+  }
+
+  @media print {
+    body { background: #fff; }
+    .lang-bar { display: none; }
+    nav.toc { page-break-after: always; }
+    article.fiche { padding: 24px 0; }
+    .fiche-head .num { font-size: 36px; }
+    figure.plan { border: 1px solid #ccc; }
+    a { color: var(--ink); text-decoration: none; }
+  }
+</style>
+</head>
+<body lang="fr">
+
+<div class="lang-bar">
+  <div class="brand-mini"><strong>Red White Group</strong> · Villa Goto</div>
+  <div class="lang-toggle" role="group" aria-label="Language">
+    <button type="button" data-set-lang="fr" class="active">Français</button>
+    <button type="button" data-set-lang="pl">Polski</button>
+  </div>
+</div>
+
+<header class="cover">
+  <div class="eyebrow">Red White Group</div>
+  <h1>
+    <span lang="fr">Catalogue des portes</span>
+    <span lang="pl">Katalog drzwi</span>
+  </h1>
+  <h2>
+    <span lang="fr">Villa Goto — détails de menuiserie intérieure</span>
+    <span lang="pl">Villa Goto — szczegóły stolarki wewnętrznej</span>
+  </h2>
+  <div class="meta">
+    <span><span lang="fr">Projet</span><span lang="pl">Projekt</span><strong>Villa Goto</strong></span>
+    <span><span lang="fr">Document source</span><span lang="pl">Dokument źródłowy</span><strong>IDM-VillaGoto-Portes.pdf</strong></span>
+    <span><span lang="fr">Échelle d'origine</span><span lang="pl">Skala oryginalna</span><strong>1:20 @ A2</strong></span>
+    <span><span lang="fr">Planches</span><span lang="pl">Plansze</span><strong>11 (DET-POR-01 → 11)</strong></span>
+    <span><span lang="fr">Édition</span><span lang="pl">Edycja</span><strong><span lang="fr">04 mai 2026</span><span lang="pl">4 maja 2026</span></strong></span>
+  </div>
+</header>
+
+<nav class="toc">
+  <h3>
+    <span lang="fr">Sommaire</span>
+    <span lang="pl">Spis treści</span>
+  </h3>
+  <ol>
+    <li><span class="num">01</span><a href="#p01">P01 / P02 &amp; P03</a><span class="ref">DET-POR-01</span></li>
+    <li><span class="num">02</span><a href="#p02">P07 / P09 &amp; P08</a><span class="ref">DET-POR-02</span></li>
+    <li><span class="num">03</span><a href="#p03">P10 &amp; P13</a><span class="ref">DET-POR-03</span></li>
+    <li><span class="num">04</span><a href="#p04">P17 &amp; P18</a><span class="ref">DET-POR-04</span></li>
+    <li><span class="num">05</span><a href="#p05">P19</a><span class="ref">DET-POR-05</span></li>
+    <li><span class="num">06</span><a href="#p06">P20 &amp; P21</a><span class="ref">DET-POR-06</span></li>
+    <li><span class="num">07</span><a href="#p07">P22 &amp; P25</a><span class="ref">DET-POR-07</span></li>
+    <li><span class="num">08</span><a href="#p08">P26 / P30 / P37 &amp; P27</a><span class="ref">DET-POR-08</span></li>
+    <li><span class="num">09</span><a href="#p09">P28 &amp; P29 / P31 / P32 / P33 / P34</a><span class="ref">DET-POR-09</span></li>
+    <li><span class="num">10</span><a href="#p10">P35 &amp; P36</a><span class="ref">DET-POR-10</span></li>
+    <li><span class="num">11</span><a href="#p11">P38 / P39 / P40 &amp; P42 / P43 / P44</a><span class="ref">DET-POR-11</span></li>
+  </ol>
+</nav>
+
+<main>
+
+<!-- ============== FICHE 01 ============== -->
+<article class="fiche" id="p01">
+  <div class="fiche-head">
+    <div class="num-wrap">
+      <div class="num">01</div>
+      <h2>
+        <small><span lang="fr">Niveau R-1 — Portes vitrées cintrées</span><span lang="pl">Poziom R-1 — Łukowe drzwi szklane</span></small>
+        <span lang="fr">Portes P01 / P02 &amp; P03</span>
+        <span lang="pl">Drzwi P01 / P02 i P03</span>
+      </h2>
+    </div>
+    <div class="ref-block"><strong>DET-POR-01</strong>
+      <span lang="fr">Rév.</span><span lang="pl">Wer.</span> C — 09.02.26<br>
+      <span lang="fr">Échelle</span><span lang="pl">Skala</span> 1:20 @ A2</div>
+  </div>
+  <div class="fiche-body">
+    <figure class="plan">
+      <div class="plan-img-wrap">
+        <img src="images/page_01.jpg" alt="DET-POR-01">
+        <div class="brand-overlay">
+          <div class="rwg">Red White Group</div>
+          <div class="rwg-meta">
+            <span class="lab"><span lang="fr">Projet</span><span lang="pl">Projekt</span></span><span>Villa Goto</span>
+            <span class="lab"><span lang="fr">Échelle</span><span lang="pl">Skala</span></span><span>1:20 @ A2</span>
+            <span class="lab"><span lang="fr">Date</span><span lang="pl">Data</span></span><span>04.11.24</span>
+            <span class="lab"><span lang="fr">Niveau</span><span lang="pl">Poziom</span></span><span>R-1</span>
+            <span class="lab"><span lang="fr">Plan n°</span><span lang="pl">Plan nr</span></span><span>DET-POR-01</span>
+            <span class="lab"><span lang="fr">Rév.</span><span lang="pl">Wer.</span></span><span>C — 09.02.26</span>
+          </div>
+        </div>
+      </div>
+      <figcaption>
+        <span lang="fr">Vues de face, coupes A &amp; B, plan d'ouverture</span>
+        <span lang="pl">Widoki czołowe, przekroje A i B, plan otwarcia</span>
+      </figcaption>
+    </figure>
+    <div class="infos">
+      <h3><span lang="fr">Portes regroupées</span><span lang="pl">Zestaw drzwi</span></h3>
+      <ul class="doors-list">
+        <li data-floor-img="images/floor_r-1.jpg" data-floor-label="R-1 — Implantation" data-x="33%" data-y="68%"><div class="pname">P01</div><div>
+          <span lang="fr">Vantail double cintré</span><span lang="pl">Łukowe drzwi dwuskrzydłowe</span>
+          <span class="badge">×2</span>
+          <div class="ploc"><span lang="fr">Entre R008 et R011</span><span lang="pl">Między R008 i R011</span></div>
+        </div></li>
+        <li data-floor-img="images/floor_r-1.jpg" data-floor-label="R-1 — Implantation" data-x="53%" data-y="68%"><div class="pname">P02</div><div>
+          <span lang="fr">Vantail double cintré (porte dessinée)</span><span lang="pl">Łukowe drzwi dwuskrzydłowe (drzwi rysunkowe)</span>
+          <span class="badge">×2</span>
+          <div class="ploc"><span lang="fr">Entre R007 et R008</span><span lang="pl">Między R007 i R008</span></div>
+        </div></li>
+        <li data-floor-img="images/floor_r-1.jpg" data-floor-label="R-1 — Implantation" data-x="22%" data-y="58%"><div class="pname">P03</div><div>
+          <span lang="fr">Porte simple cintrée</span><span lang="pl">Pojedyncze drzwi łukowe</span>
+          <div class="ploc"><span lang="fr">Accès R012</span><span lang="pl">Wejście R012</span></div>
+        </div></li>
+      </ul>
+      <h3><span lang="fr">Dimensions principales (mm)</span><span lang="pl">Wymiary główne (mm)</span></h3>
+      <table class="dims">
+        <tr><th>P01 / P02 — <span lang="fr">passage</span><span lang="pl">prześwit</span></th><td>2065 H × 1330</td></tr>
+        <tr><th>P01 / P02 — <span lang="fr">hors-tout</span><span lang="pl">wymiar zewn.</span></th><td>2100 H — <span lang="fr">vantail</span><span lang="pl">skrzydło</span> 850 + <span lang="fr">jeux</span><span lang="pl">luzy</span> 20+20</td></tr>
+        <tr><th>P01 / P02 — <span lang="fr">épaisseur dormant</span><span lang="pl">grubość ościeżnicy</span></th><td>35 mm</td></tr>
+        <tr><th>P03 — <span lang="fr">passage</span><span lang="pl">prześwit</span></th><td>2150 H × 900</td></tr>
+        <tr><th>P03 — <span lang="fr">hors-tout</span><span lang="pl">wymiar zewn.</span></th><td>2300 H × 1000 L (930 + 35 + 35)</td></tr>
+        <tr><th>P03 — <span lang="fr">épaisseur</span><span lang="pl">grubość</span></th><td>36 / 35 mm</td></tr>
+      </table>
+      <h3><span lang="fr">Matériaux &amp; finitions</span><span lang="pl">Materiały i wykończenia</span></h3>
+      <div class="mat-tags">
+        <span class="mat"><strong>MT-01</strong><span lang="fr">Métal noir — structure cintrée</span><span lang="pl">Czarny metal — konstrukcja łukowa</span></span>
+        <span class="mat"><strong>GL-04</strong><span lang="fr">Verre vitrage chevron</span><span lang="pl">Szkło w jodełkę</span></span>
+        <span class="mat"><strong>PT-01</strong><span lang="fr">Peinture finition murs encadrement</span><span lang="pl">Farba wykończeniowa ścian/obudowy</span></span>
+        <span class="mat"><strong>PT-02</strong><span lang="fr">Peinture porte P03</span><span lang="pl">Farba drzwi P03</span></span>
+      </div>
+      <h3><span lang="fr">Notes</span><span lang="pl">Uwagi</span></h3>
+      <p class="notes">
+        <span lang="fr">Quantité ×2 pour P01 et P02 (paire). Porte dessinée de référence : P02. Vitrages chevronnés type atelier, dormant métallique noir. P03 cintrée pleine en peinture.</span>
+        <span lang="pl">Ilość ×2 dla P01 i P02 (para). Drzwi rysunkowe odniesienia: P02. Szklenie w jodełkę typu atelier, ościeżnica metalowa czarna. P03 łukowe pełne malowane.</span>
+      </p>
+    </div>
+  </div>
+</article>
+
+<!-- ============== FICHE 02 ============== -->
+<article class="fiche" id="p02">
+  <div class="fiche-head">
+    <div class="num-wrap">
+      <div class="num">02</div>
+      <h2>
+        <small><span lang="fr">Niveau R-1 — Portes vitrées et pleine</span><span lang="pl">Poziom R-1 — Drzwi szklane i pełne</span></small>
+        <span lang="fr">Portes P07 / P09 &amp; P08</span>
+        <span lang="pl">Drzwi P07 / P09 i P08</span>
+      </h2>
+    </div>
+    <div class="ref-block"><strong>DET-POR-02</strong>
+      <span lang="fr">Rév.</span><span lang="pl">Wer.</span> B — 24.10.25<br>
+      <span lang="fr">Échelle</span><span lang="pl">Skala</span> 1:20 @ A2</div>
+  </div>
+  <div class="fiche-body">
+    <figure class="plan">
+      <div class="plan-img-wrap">
+        <img src="images/page_02.jpg" alt="DET-POR-02">
+        <div class="brand-overlay">
+          <div class="rwg">Red White Group</div>
+          <div class="rwg-meta">
+            <span class="lab"><span lang="fr">Projet</span><span lang="pl">Projekt</span></span><span>Villa Goto</span>
+            <span class="lab"><span lang="fr">Échelle</span><span lang="pl">Skala</span></span><span>1:20 @ A2</span>
+            <span class="lab"><span lang="fr">Date</span><span lang="pl">Data</span></span><span>04.11.24</span>
+            <span class="lab"><span lang="fr">Niveau</span><span lang="pl">Poziom</span></span><span>R-1</span>
+            <span class="lab"><span lang="fr">Plan n°</span><span lang="pl">Plan nr</span></span><span>DET-POR-02</span>
+            <span class="lab"><span lang="fr">Rév.</span><span lang="pl">Wer.</span></span><span>B — 24.10.25</span>
+          </div>
+        </div>
+      </div>
+      <figcaption>
+        <span lang="fr">Vantaux doubles vitrés et porte simple pleine</span>
+        <span lang="pl">Drzwi dwuskrzydłowe szklane i pojedyncze drzwi pełne</span>
+      </figcaption>
+    </figure>
+    <div class="infos">
+      <h3><span lang="fr">Portes regroupées</span><span lang="pl">Zestaw drzwi</span></h3>
+      <ul class="doors-list">
+        <li data-floor-img="images/floor_r-1.jpg" data-floor-label="R-1 — Implantation" data-x="33%" data-y="56%"><div class="pname">P07</div><div>
+          <span lang="fr">Vantail double vitré cintré</span><span lang="pl">Łukowe szklane drzwi dwuskrzydłowe</span>
+          <span class="badge">×2</span>
+          <div class="ploc"><span lang="fr">Entre R008 et R010</span><span lang="pl">Między R008 i R010</span></div>
+        </div></li>
+        <li data-floor-img="images/floor_r-1.jpg" data-floor-label="R-1 — Implantation" data-x="53%" data-y="56%"><div class="pname">P09</div><div>
+          <span lang="fr">Vantail double vitré cintré (porte dessinée)</span><span lang="pl">Łukowe szklane drzwi dwuskrzydłowe (drzwi rysunkowe)</span>
+          <span class="badge">×2</span>
+          <div class="ploc"><span lang="fr">Entre R008 et R018</span><span lang="pl">Między R008 i R018</span></div>
+        </div></li>
+        <li data-floor-img="images/floor_r-1.jpg" data-floor-label="R-1 — Implantation" data-x="46%" data-y="49%"><div class="pname">P08</div><div>
+          <span lang="fr">Porte pleine simple</span><span lang="pl">Pojedyncze drzwi pełne</span>
+          <div class="ploc"><span lang="fr">Accès R018</span><span lang="pl">Wejście R018</span></div>
+        </div></li>
+      </ul>
+      <h3><span lang="fr">Dimensions principales (mm)</span><span lang="pl">Wymiary główne (mm)</span></h3>
+      <table class="dims">
+        <tr><th>P07 / P09 — <span lang="fr">passage</span><span lang="pl">prześwit</span></th><td>2100 H × 1430</td></tr>
+        <tr><th>P07 / P09 — <span lang="fr">hors-tout</span><span lang="pl">wymiar zewn.</span></th><td>2300 H × 1500 L — <span lang="fr">vantail</span><span lang="pl">skrzydło</span> 723</td></tr>
+        <tr><th>P08 — <span lang="fr">passage</span><span lang="pl">prześwit</span></th><td>2200 H × 700</td></tr>
+        <tr><th>P08 — <span lang="fr">hors-tout</span><span lang="pl">wymiar zewn.</span></th><td>2300 H × 870 L (730 + 70 + 70)</td></tr>
+        <tr><th>P08 — <span lang="fr">épaisseur</span><span lang="pl">grubość</span></th><td>40 mm</td></tr>
+      </table>
+      <h3><span lang="fr">Matériaux &amp; finitions</span><span lang="pl">Materiały i wykończenia</span></h3>
+      <div class="mat-tags">
+        <span class="mat"><strong>MT-01</strong><span lang="fr">Métal noir</span><span lang="pl">Czarny metal</span></span>
+        <span class="mat"><strong>GL-04</strong><span lang="fr">Verre chevron</span><span lang="pl">Szkło w jodełkę</span></span>
+        <span class="mat"><strong>PT-02</strong><span lang="fr">Peinture porte pleine</span><span lang="pl">Farba drzwi pełnych</span></span>
+      </div>
+      <h3><span lang="fr">Notes</span><span lang="pl">Uwagi</span></h3>
+      <p class="notes">
+        <span lang="fr">Charnières invisibles type Tectus ou similaire. P07 et P09 forment une paire (×2). P08 isolée.</span>
+        <span lang="pl">Zawiasy ukryte typu Tectus lub podobne. P07 i P09 tworzą parę (×2). P08 osobno.</span>
+      </p>
+    </div>
+  </div>
+</article>
+
+<!-- ============== FICHE 03 ============== -->
+<article class="fiche" id="p03">
+  <div class="fiche-head">
+    <div class="num-wrap">
+      <div class="num">03</div>
+      <h2>
+        <small><span lang="fr">Niveau R-1 — Portes pleines</span><span lang="pl">Poziom R-1 — Drzwi pełne</span></small>
+        <span lang="fr">Portes P10 &amp; P13</span>
+        <span lang="pl">Drzwi P10 i P13</span>
+      </h2>
+    </div>
+    <div class="ref-block"><strong>DET-POR-03</strong>
+      <span lang="fr">Rév.</span><span lang="pl">Wer.</span> B — 24.10.25<br>
+      <span lang="fr">Échelle</span><span lang="pl">Skala</span> 1:20 @ A2</div>
+  </div>
+  <div class="fiche-body">
+    <figure class="plan">
+      <div class="plan-img-wrap">
+        <img src="images/page_03.jpg" alt="DET-POR-03">
+        <div class="brand-overlay">
+          <div class="rwg">Red White Group</div>
+          <div class="rwg-meta">
+            <span class="lab"><span lang="fr">Projet</span><span lang="pl">Projekt</span></span><span>Villa Goto</span>
+            <span class="lab"><span lang="fr">Échelle</span><span lang="pl">Skala</span></span><span>1:20 @ A2</span>
+            <span class="lab"><span lang="fr">Date</span><span lang="pl">Data</span></span><span>04.11.24</span>
+            <span class="lab"><span lang="fr">Niveau</span><span lang="pl">Poziom</span></span><span>R-1</span>
+            <span class="lab"><span lang="fr">Plan n°</span><span lang="pl">Plan nr</span></span><span>DET-POR-03</span>
+            <span class="lab"><span lang="fr">Rév.</span><span lang="pl">Wer.</span></span><span>B — 24.10.25</span>
+          </div>
+        </div>
+      </div>
+      <figcaption>
+        <span lang="fr">Porte simple et porte avec imposte vitrée</span>
+        <span lang="pl">Pojedyncze drzwi i drzwi z naświetlem szklanym</span>
+      </figcaption>
+    </figure>
+    <div class="infos">
+      <h3><span lang="fr">Portes regroupées</span><span lang="pl">Zestaw drzwi</span></h3>
+      <ul class="doors-list">
+        <li data-floor-img="images/floor_r-1.jpg" data-floor-label="R-1 — Implantation" data-x="27%" data-y="47%"><div class="pname">P10</div><div>
+          <span lang="fr">Porte simple pleine</span><span lang="pl">Pojedyncze drzwi pełne</span>
+          <div class="ploc"><span lang="fr">Accès R012a</span><span lang="pl">Wejście R012a</span></div>
+        </div></li>
+        <li data-floor-img="images/floor_r-1.jpg" data-floor-label="R-1 — Implantation" data-x="44%" data-y="33%"><div class="pname">P13</div><div>
+          <span lang="fr">Porte simple avec imposte</span><span lang="pl">Pojedyncze drzwi z naświetlem</span>
+          <div class="ploc"><span lang="fr">Accès R013</span><span lang="pl">Wejście R013</span></div>
+        </div></li>
+      </ul>
+      <h3><span lang="fr">Dimensions principales (mm)</span><span lang="pl">Wymiary główne (mm)</span></h3>
+      <table class="dims">
+        <tr><th>P10 — <span lang="fr">passage</span><span lang="pl">prześwit</span></th><td>2300 H × 700</td></tr>
+        <tr><th>P10 — <span lang="fr">hors-tout</span><span lang="pl">wymiar zewn.</span></th><td>860 L — <span lang="fr">vantail</span><span lang="pl">skrzydło</span> 720</td></tr>
+        <tr><th>P13 — <span lang="fr">passage porte</span><span lang="pl">prześwit drzwi</span></th><td>2055 H × 900</td></tr>
+        <tr><th>P13 — <span lang="fr">imposte au-dessus</span><span lang="pl">naświetle nad</span></th><td>500 H</td></tr>
+        <tr><th>P13 — <span lang="fr">hors-tout</span><span lang="pl">wymiar zewn.</span></th><td>2550 H × 1020 L (930 + 45 + 45)</td></tr>
+      </table>
+      <h3><span lang="fr">Matériaux &amp; finitions</span><span lang="pl">Materiały i wykończenia</span></h3>
+      <div class="mat-tags">
+        <span class="mat"><strong>PT-02</strong><span lang="fr">Peinture finition</span><span lang="pl">Farba wykończeniowa</span></span>
+      </div>
+      <h3><span lang="fr">Notes</span><span lang="pl">Uwagi</span></h3>
+      <p class="notes">
+        <span lang="fr">P13 : ensemble composé d'une porte (2120 H) et d'une imposte fixe (≈ 500 H) pour atteindre une hauteur d'huisserie totale 2550. Encadrement bois 45 mm.</span>
+        <span lang="pl">P13: zestaw drzwi (2120 wys.) i stałego naświetla (≈ 500 wys.) o łącznej wysokości ościeżnicy 2550. Obudowa drewniana 45 mm.</span>
+      </p>
+    </div>
+  </div>
+</article>
+
+<!-- ============== FICHE 04 ============== -->
+<article class="fiche" id="p04">
+  <div class="fiche-head">
+    <div class="num-wrap">
+      <div class="num">04</div>
+      <h2>
+        <small><span lang="fr">Niveau RDC — Porte cintrée et porte pleine</span><span lang="pl">Poziom parteru — Drzwi łukowe i drzwi pełne</span></small>
+        <span lang="fr">Portes P17 &amp; P18</span>
+        <span lang="pl">Drzwi P17 i P18</span>
+      </h2>
+    </div>
+    <div class="ref-block"><strong>DET-POR-04</strong>
+      <span lang="fr">Rév.</span><span lang="pl">Wer.</span> C — 09.02.26<br>
+      <span lang="fr">Échelle</span><span lang="pl">Skala</span> 1:20 @ A2</div>
+  </div>
+  <div class="fiche-body">
+    <figure class="plan">
+      <div class="plan-img-wrap">
+        <img src="images/page_04.jpg" alt="DET-POR-04">
+        <div class="brand-overlay">
+          <div class="rwg">Red White Group</div>
+          <div class="rwg-meta">
+            <span class="lab"><span lang="fr">Projet</span><span lang="pl">Projekt</span></span><span>Villa Goto</span>
+            <span class="lab"><span lang="fr">Échelle</span><span lang="pl">Skala</span></span><span>1:20 @ A2</span>
+            <span class="lab"><span lang="fr">Date</span><span lang="pl">Data</span></span><span>04.11.24</span>
+            <span class="lab"><span lang="fr">Niveau</span><span lang="pl">Poziom</span></span><span>RDC</span>
+            <span class="lab"><span lang="fr">Plan n°</span><span lang="pl">Plan nr</span></span><span>DET-POR-04</span>
+            <span class="lab"><span lang="fr">Rév.</span><span lang="pl">Wer.</span></span><span>C — 09.02.26</span>
+          </div>
+        </div>
+      </div>
+      <figcaption>
+        <span lang="fr">Porte cintrée vitrée et porte simple pleine</span>
+        <span lang="pl">Drzwi łukowe szklane i pojedyncze drzwi pełne</span>
+      </figcaption>
+    </figure>
+    <div class="infos">
+      <h3><span lang="fr">Portes regroupées</span><span lang="pl">Zestaw drzwi</span></h3>
+      <ul class="doors-list">
+        <li><div class="pname">P17</div><div>
+          <span lang="fr">Porte cintrée vitrée (atelier)</span><span lang="pl">Łukowe drzwi szklane (atelier)</span>
+          <div class="ploc"><span lang="fr">Entre R110 et R111</span><span lang="pl">Między R110 i R111</span></div>
+        </div></li>
+        <li><div class="pname">P18</div><div>
+          <span lang="fr">Porte pleine simple</span><span lang="pl">Pojedyncze drzwi pełne</span>
+          <div class="ploc"><span lang="fr">Entre R112 et R113</span><span lang="pl">Między R112 i R113</span></div>
+        </div></li>
+      </ul>
+      <h3><span lang="fr">Dimensions principales (mm)</span><span lang="pl">Wymiary główne (mm)</span></h3>
+      <table class="dims">
+        <tr><th>P17 — <span lang="fr">passage</span><span lang="pl">prześwit</span></th><td>2065 H × 820</td></tr>
+        <tr><th>P17 — <span lang="fr">hors-tout</span><span lang="pl">wymiar zewn.</span></th><td>≈ 2100 H × 870 L ; 1160 L <span lang="fr">avec dormant</span><span lang="pl">z ościeżnicą</span></td></tr>
+        <tr><th>P18 — <span lang="fr">passage</span><span lang="pl">prześwit</span></th><td>2400 H × 800</td></tr>
+        <tr><th>P18 — <span lang="fr">hors-tout</span><span lang="pl">wymiar zewn.</span></th><td>2424 H × 988 L (848 + 70 + 70)</td></tr>
+      </table>
+      <h3><span lang="fr">Matériaux &amp; finitions</span><span lang="pl">Materiały i wykończenia</span></h3>
+      <div class="mat-tags">
+        <span class="mat"><strong>MT-01</strong><span lang="fr">Structure métal</span><span lang="pl">Konstrukcja metalowa</span></span>
+        <span class="mat"><strong>GL-01</strong><span lang="fr">Vitrage atelier</span><span lang="pl">Szkło atelier</span></span>
+        <span class="mat"><strong>PT-01</strong><span lang="fr">Peinture P17 / P18</span><span lang="pl">Farba P17 / P18</span></span>
+        <span class="mat"><strong>PT-05</strong><span lang="fr">Peinture environnante P18</span><span lang="pl">Farba otoczenia P18</span></span>
+      </div>
+      <h3><span lang="fr">Notes</span><span lang="pl">Uwagi</span></h3>
+      <p class="notes">
+        <span lang="fr">P17 : porte cintrée à barres horizontales (style atelier) intégrée dans embrasure cintrée. P18 : porte de grande hauteur (2,42 m) en peinture mate.</span>
+        <span lang="pl">P17: drzwi łukowe z poziomymi szczeblinami (styl atelier) zintegrowane w łukowym ościeżu. P18: drzwi wysokie (2,42 m) malowane matowo.</span>
+      </p>
+    </div>
+  </div>
+</article>
+
+<!-- ============== FICHE 05 ============== -->
+<article class="fiche" id="p05">
+  <div class="fiche-head">
+    <div class="num-wrap">
+      <div class="num">05</div>
+      <h2>
+        <small><span lang="fr">Niveau RDC — Grande porte cintrée</span><span lang="pl">Poziom parteru — Duże drzwi łukowe</span></small>
+        <span lang="fr">Porte P19</span>
+        <span lang="pl">Drzwi P19</span>
+      </h2>
+    </div>
+    <div class="ref-block"><strong>DET-POR-05</strong>
+      <span lang="fr">Rév.</span><span lang="pl">Wer.</span> B — 24.10.25<br>
+      <span lang="fr">Échelle</span><span lang="pl">Skala</span> 1:20 @ A2</div>
+  </div>
+  <div class="fiche-body">
+    <figure class="plan">
+      <div class="plan-img-wrap">
+        <img src="images/page_05.jpg" alt="DET-POR-05">
+        <div class="brand-overlay">
+          <div class="rwg">Red White Group</div>
+          <div class="rwg-meta">
+            <span class="lab"><span lang="fr">Projet</span><span lang="pl">Projekt</span></span><span>Villa Goto</span>
+            <span class="lab"><span lang="fr">Échelle</span><span lang="pl">Skala</span></span><span>1:20 @ A2</span>
+            <span class="lab"><span lang="fr">Date</span><span lang="pl">Data</span></span><span>04.11.24</span>
+            <span class="lab"><span lang="fr">Niveau</span><span lang="pl">Poziom</span></span><span>RDC</span>
+            <span class="lab"><span lang="fr">Plan n°</span><span lang="pl">Plan nr</span></span><span>DET-POR-05</span>
+            <span class="lab"><span lang="fr">Rév.</span><span lang="pl">Wer.</span></span><span>B — 24.10.25</span>
+          </div>
+        </div>
+      </div>
+      <figcaption>
+        <span lang="fr">Double-vantail cintré grande hauteur</span>
+        <span lang="pl">Wysokie drzwi łukowe dwuskrzydłowe</span>
+      </figcaption>
+    </figure>
+    <div class="infos">
+      <h3><span lang="fr">Porte</span><span lang="pl">Drzwi</span></h3>
+      <ul class="doors-list">
+        <li><div class="pname">P19</div><div>
+          <span lang="fr">Double-vantail cintré, grande hauteur, style atelier</span><span lang="pl">Dwuskrzydłowe drzwi łukowe wysokie, styl atelier</span>
+          <div class="ploc"><span lang="fr">Entre R110 et R111</span><span lang="pl">Między R110 i R111</span></div>
+        </div></li>
+      </ul>
+      <h3><span lang="fr">Dimensions principales (mm)</span><span lang="pl">Wymiary główne (mm)</span></h3>
+      <table class="dims">
+        <tr><th><span lang="fr">Passage</span><span lang="pl">Prześwit</span></th><td>2065 H × 1400</td></tr>
+        <tr><th><span lang="fr">Hors-tout</span><span lang="pl">Wymiar zewn.</span></th><td>2650 H × 2227 L</td></tr>
+        <tr><th><span lang="fr">Vantail</span><span lang="pl">Skrzydło</span></th><td>2069 H × 708 L</td></tr>
+        <tr><th><span lang="fr">Cintre supérieur</span><span lang="pl">Łuk górny</span></th><td>R 2037 / R 378</td></tr>
+        <tr><th><span lang="fr">Imposte cintrée</span><span lang="pl">Naświetle łukowe</span></th><td>≈ 600 H</td></tr>
+        <tr><th><span lang="fr">Vantaux ouvrants</span><span lang="pl">Skrzydła otwierane</span></th><td>2 × 708 — <span lang="fr">ouverture</span><span lang="pl">otwór</span> 1400</td></tr>
+      </table>
+      <h3><span lang="fr">Matériaux &amp; finitions</span><span lang="pl">Materiały i wykończenia</span></h3>
+      <div class="mat-tags">
+        <span class="mat"><strong>MT-01</strong><span lang="fr">Profilé métal noir</span><span lang="pl">Profil metalowy czarny</span></span>
+        <span class="mat"><strong>GL-01</strong><span lang="fr">Vitrage atelier</span><span lang="pl">Szkło atelier</span></span>
+        <span class="mat"><strong>PT-01</strong><span lang="fr">Peinture encadrement</span><span lang="pl">Farba obudowy</span></span>
+      </div>
+      <h3><span lang="fr">Notes</span><span lang="pl">Uwagi</span></h3>
+      <p class="notes">
+        <span lang="fr">Pièce maîtresse : grande porte vitrée cintrée à imposte fixe et deux vantaux à barres horizontales. Profilés acier laqués noirs, vitrage clair en chevrons.</span>
+        <span lang="pl">Element centralny: duże szklane drzwi łukowe z naświetlem stałym i dwoma skrzydłami z poziomymi szczeblinami. Profile stalowe lakierowane czarne, szkło przezroczyste w jodełkę.</span>
+      </p>
+    </div>
+  </div>
+</article>
+
+<!-- ============== FICHE 06 ============== -->
+<article class="fiche" id="p06">
+  <div class="fiche-head">
+    <div class="num-wrap">
+      <div class="num">06</div>
+      <h2>
+        <small><span lang="fr">Niveau RDC — Doubles cintrées</span><span lang="pl">Poziom parteru — Łukowe dwuskrzydłowe</span></small>
+        <span lang="fr">Portes P20 &amp; P21</span>
+        <span lang="pl">Drzwi P20 i P21</span>
+      </h2>
+    </div>
+    <div class="ref-block"><strong>DET-POR-06</strong>
+      <span lang="fr">Rév.</span><span lang="pl">Wer.</span> B — 24.10.25<br>
+      <span lang="fr">Échelle</span><span lang="pl">Skala</span> 1:20 @ A2</div>
+  </div>
+  <div class="fiche-body">
+    <figure class="plan">
+      <div class="plan-img-wrap">
+        <img src="images/page_06.jpg" alt="DET-POR-06">
+        <div class="brand-overlay">
+          <div class="rwg">Red White Group</div>
+          <div class="rwg-meta">
+            <span class="lab"><span lang="fr">Projet</span><span lang="pl">Projekt</span></span><span>Villa Goto</span>
+            <span class="lab"><span lang="fr">Échelle</span><span lang="pl">Skala</span></span><span>1:20 @ A2</span>
+            <span class="lab"><span lang="fr">Date</span><span lang="pl">Data</span></span><span>04.11.24</span>
+            <span class="lab"><span lang="fr">Niveau</span><span lang="pl">Poziom</span></span><span>RDC</span>
+            <span class="lab"><span lang="fr">Plan n°</span><span lang="pl">Plan nr</span></span><span>DET-POR-06</span>
+            <span class="lab"><span lang="fr">Rév.</span><span lang="pl">Wer.</span></span><span>B — 24.10.25</span>
+          </div>
+        </div>
+      </div>
+      <figcaption>
+        <span lang="fr">Deux doubles vantaux cintrés vitrés style atelier</span>
+        <span lang="pl">Dwie pary dwuskrzydłowych drzwi łukowych szklanych styl atelier</span>
+      </figcaption>
+    </figure>
+    <div class="infos">
+      <h3><span lang="fr">Portes regroupées</span><span lang="pl">Zestaw drzwi</span></h3>
+      <ul class="doors-list">
+        <li><div class="pname">P20</div><div>
+          <span lang="fr">Vantail double cintré vitré</span><span lang="pl">Łukowe drzwi dwuskrzydłowe szklane</span>
+          <div class="ploc"><span lang="fr">Entre R101 et R107</span><span lang="pl">Między R101 i R107</span></div>
+        </div></li>
+        <li><div class="pname">P21</div><div>
+          <span lang="fr">Vantail double cintré vitré (grande hauteur)</span><span lang="pl">Wysokie łukowe drzwi dwuskrzydłowe szklane</span>
+          <div class="ploc"><span lang="fr">Entre R107 et R105</span><span lang="pl">Między R107 i R105</span></div>
+        </div></li>
+      </ul>
+      <h3><span lang="fr">Dimensions principales (mm)</span><span lang="pl">Wymiary główne (mm)</span></h3>
+      <table class="dims">
+        <tr><th>P20 — <span lang="fr">passage</span><span lang="pl">prześwit</span></th><td>2065 H × 1470</td></tr>
+        <tr><th>P20 — <span lang="fr">hors-tout</span><span lang="pl">wymiar zewn.</span></th><td>≈ 2650 H × 1600 L</td></tr>
+        <tr><th>P21 — <span lang="fr">passage</span><span lang="pl">prześwit</span></th><td>2458 H × 1080</td></tr>
+        <tr><th>P21 — <span lang="fr">hors-tout</span><span lang="pl">wymiar zewn.</span></th><td>2542 H × 1248 L (<span lang="fr">à ajuster site</span><span lang="pl">do dopas. na miejscu</span>)</td></tr>
+        <tr><th>P21 — <span lang="fr">vantail</span><span lang="pl">skrzydło</span></th><td>2 × 533 mm</td></tr>
+      </table>
+      <h3><span lang="fr">Matériaux &amp; finitions</span><span lang="pl">Materiały i wykończenia</span></h3>
+      <div class="mat-tags">
+        <span class="mat"><strong>MT-01</strong><span lang="fr">Métal noir</span><span lang="pl">Czarny metal</span></span>
+        <span class="mat"><strong>GL-01</strong><span lang="fr">Vitrage atelier P20</span><span lang="pl">Szkło atelier P20</span></span>
+        <span class="mat"><strong>GL-03</strong><span lang="fr">Vitrage P21</span><span lang="pl">Szkło P21</span></span>
+        <span class="mat"><strong>PT-01</strong><span lang="fr">Peinture encadrement</span><span lang="pl">Farba obudowy</span></span>
+      </div>
+      <h3><span lang="fr">Notes</span><span lang="pl">Uwagi</span></h3>
+      <p class="notes">
+        <span lang="fr">P21 « à ajuster, idem PF07 » : cotes finales à harmoniser avec la baie PF07. Hauteurs à vérifier sur site avant fabrication.</span>
+        <span lang="pl">P21 „do dopasowania, jak PF07": wymiary końcowe zharmonizować z otworem PF07. Wysokości sprawdzić na miejscu przed produkcją.</span>
+      </p>
+    </div>
+  </div>
+</article>
+
+<!-- ============== FICHE 07 ============== -->
+<article class="fiche" id="p07">
+  <div class="fiche-head">
+    <div class="num-wrap">
+      <div class="num">07</div>
+      <h2>
+        <small><span lang="fr">Niveau R+1 — Portes simples vitrées</span><span lang="pl">Poziom 1. piętra — Pojedyncze drzwi szklane</span></small>
+        <span lang="fr">Portes P22 &amp; P25</span>
+        <span lang="pl">Drzwi P22 i P25</span>
+      </h2>
+    </div>
+    <div class="ref-block"><strong>DET-POR-07</strong>
+      <span lang="fr">Rév.</span><span lang="pl">Wer.</span> B — 24.10.25<br>
+      <span lang="fr">Échelle</span><span lang="pl">Skala</span> 1:20 @ A2</div>
+  </div>
+  <div class="fiche-body">
+    <figure class="plan">
+      <div class="plan-img-wrap">
+        <img src="images/page_07.jpg" alt="DET-POR-07">
+        <div class="brand-overlay">
+          <div class="rwg">Red White Group</div>
+          <div class="rwg-meta">
+            <span class="lab"><span lang="fr">Projet</span><span lang="pl">Projekt</span></span><span>Villa Goto</span>
+            <span class="lab"><span lang="fr">Échelle</span><span lang="pl">Skala</span></span><span>1:20 @ A2</span>
+            <span class="lab"><span lang="fr">Date</span><span lang="pl">Data</span></span><span>04.11.24</span>
+            <span class="lab"><span lang="fr">Niveau</span><span lang="pl">Poziom</span></span><span>R+1</span>
+            <span class="lab"><span lang="fr">Plan n°</span><span lang="pl">Plan nr</span></span><span>DET-POR-07</span>
+            <span class="lab"><span lang="fr">Rév.</span><span lang="pl">Wer.</span></span><span>B — 24.10.25</span>
+          </div>
+        </div>
+      </div>
+      <figcaption>
+        <span lang="fr">Portes simples vitrées (style atelier rectangulaire)</span>
+        <span lang="pl">Pojedyncze drzwi szklane (prostokątny styl atelier)</span>
+      </figcaption>
+    </figure>
+    <div class="infos">
+      <h3><span lang="fr">Portes regroupées</span><span lang="pl">Zestaw drzwi</span></h3>
+      <ul class="doors-list">
+        <li><div class="pname">P22</div><div>
+          <span lang="fr">Porte simple vitrée</span><span lang="pl">Pojedyncze drzwi szklane</span>
+          <div class="ploc"><span lang="fr">Entre R207 et R209</span><span lang="pl">Między R207 i R209</span></div>
+        </div></li>
+        <li><div class="pname">P25</div><div>
+          <span lang="fr">Porte simple vitrée</span><span lang="pl">Pojedyncze drzwi szklane</span>
+          <div class="ploc"><span lang="fr">Entre R208 et R209</span><span lang="pl">Między R208 i R209</span></div>
+        </div></li>
+      </ul>
+      <h3><span lang="fr">Dimensions principales (mm)</span><span lang="pl">Wymiary główne (mm)</span></h3>
+      <table class="dims">
+        <tr><th>P22 — <span lang="fr">passage</span><span lang="pl">prześwit</span></th><td>2470 H × 820</td></tr>
+        <tr><th>P22 — <span lang="fr">hors-tout</span><span lang="pl">wymiar zewn.</span></th><td>2500 H × 870 L (800 + 35 + 35)</td></tr>
+        <tr><th>P25 — <span lang="fr">passage</span><span lang="pl">prześwit</span></th><td>2469 H × 830</td></tr>
+        <tr><th>P25 — <span lang="fr">hors-tout</span><span lang="pl">wymiar zewn.</span></th><td>2500 H — <span lang="fr">vantail</span><span lang="pl">skrzydło</span> 830 + 20+20</td></tr>
+      </table>
+      <h3><span lang="fr">Matériaux &amp; finitions</span><span lang="pl">Materiały i wykończenia</span></h3>
+      <div class="mat-tags">
+        <span class="mat"><strong>MT-01</strong><span lang="fr">Cadre métal</span><span lang="pl">Rama metalowa</span></span>
+        <span class="mat"><strong>GL-03</strong><span lang="fr">Vitrage clair</span><span lang="pl">Szkło przezroczyste</span></span>
+      </div>
+      <h3><span lang="fr">Notes</span><span lang="pl">Uwagi</span></h3>
+      <p class="notes">
+        <span lang="fr">Portes vitrées rectangulaires de grande hauteur (≈ 2,50 m), un seul vantail, finition métal et verre.</span>
+        <span lang="pl">Wysokie drzwi szklane prostokątne (≈ 2,50 m), pojedyncze skrzydło, wykończenie metal i szkło.</span>
+      </p>
+    </div>
+  </div>
+</article>
+
+<!-- ============== FICHE 08 ============== -->
+<article class="fiche" id="p08">
+  <div class="fiche-head">
+    <div class="num-wrap">
+      <div class="num">08</div>
+      <h2>
+        <small><span lang="fr">Niveau R+1 — Doubles vantaux laqués</span><span lang="pl">Poziom 1. piętra — Dwuskrzydłowe lakierowane</span></small>
+        <span lang="fr">Portes P26 / P30 / P37 &amp; P27</span>
+        <span lang="pl">Drzwi P26 / P30 / P37 i P27</span>
+      </h2>
+    </div>
+    <div class="ref-block"><strong>DET-POR-08</strong>
+      <span lang="fr">Rév.</span><span lang="pl">Wer.</span> C — 24.10.25<br>
+      <span lang="fr">Échelle</span><span lang="pl">Skala</span> 1:20 @ A2</div>
+  </div>
+  <div class="fiche-body">
+    <figure class="plan">
+      <div class="plan-img-wrap">
+        <img src="images/page_08.jpg" alt="DET-POR-08">
+        <div class="brand-overlay">
+          <div class="rwg">Red White Group</div>
+          <div class="rwg-meta">
+            <span class="lab"><span lang="fr">Projet</span><span lang="pl">Projekt</span></span><span>Villa Goto</span>
+            <span class="lab"><span lang="fr">Échelle</span><span lang="pl">Skala</span></span><span>1:20 @ A2</span>
+            <span class="lab"><span lang="fr">Date</span><span lang="pl">Data</span></span><span>04.11.24</span>
+            <span class="lab"><span lang="fr">Niveau</span><span lang="pl">Poziom</span></span><span>R+1</span>
+            <span class="lab"><span lang="fr">Plan n°</span><span lang="pl">Plan nr</span></span><span>DET-POR-08</span>
+            <span class="lab"><span lang="fr">Rév.</span><span lang="pl">Wer.</span></span><span>C — 24.10.25</span>
+          </div>
+        </div>
+      </div>
+      <figcaption>
+        <span lang="fr">Doubles vantaux laqués &amp; porte WC simple vitrée</span>
+        <span lang="pl">Drzwi dwuskrzydłowe lakierowane i pojedyncze szklane drzwi WC</span>
+      </figcaption>
+    </figure>
+    <div class="infos">
+      <h3><span lang="fr">Portes regroupées</span><span lang="pl">Zestaw drzwi</span></h3>
+      <ul class="doors-list">
+        <li><div class="pname">P26</div><div>
+          <span lang="fr">Double vantail laqué, miroir côté dressing</span><span lang="pl">Dwuskrzydłowe drzwi lakierowane, lustro od strony garderoby</span>
+          <span class="badge">×3</span>
+          <div class="ploc"><span lang="fr">Entre R205 et R206</span><span lang="pl">Między R205 i R206</span></div>
+        </div></li>
+        <li><div class="pname">P30</div><div>
+          <span lang="fr">Double vantail laqué (porte dessinée)</span><span lang="pl">Dwuskrzydłowe drzwi lakierowane (drzwi rysunkowe)</span>
+          <div class="ploc"><span lang="fr">Entre R204 et R205</span><span lang="pl">Między R204 i R205</span></div>
+        </div></li>
+        <li><div class="pname">P37</div><div>
+          <span lang="fr">Double vantail laqué</span><span lang="pl">Dwuskrzydłowe drzwi lakierowane</span>
+          <div class="ploc"><span lang="fr">Entre R212 et R213</span><span lang="pl">Między R212 i R213</span></div>
+        </div></li>
+        <li><div class="pname">P27</div><div>
+          <span lang="fr">Porte simple vitrée (toilettes R208)</span><span lang="pl">Pojedyncze drzwi szklane (toaleta R208)</span>
+          <div class="ploc"><span lang="fr">Accès toilettes — R208</span><span lang="pl">Wejście do toalety — R208</span></div>
+        </div></li>
+      </ul>
+      <h3><span lang="fr">Dimensions principales (mm)</span><span lang="pl">Wymiary główne (mm)</span></h3>
+      <table class="dims">
+        <tr><th>P26 / P30 / P37 — <span lang="fr">passage</span><span lang="pl">prześwit</span></th><td>2480 H × 1200 (611 + 611)</td></tr>
+        <tr><th>P26 / P30 / P37 — <span lang="fr">hors-tout</span><span lang="pl">wymiar zewn.</span></th><td>2500 H × 1330 L</td></tr>
+        <tr><th>P27 — <span lang="fr">passage</span><span lang="pl">prześwit</span></th><td>2475 H × 720</td></tr>
+        <tr><th>P27 — <span lang="fr">hors-tout</span><span lang="pl">wymiar zewn.</span></th><td>2500 H × 800 L</td></tr>
+      </table>
+      <h3><span lang="fr">Matériaux &amp; finitions</span><span lang="pl">Materiały i wykończenia</span></h3>
+      <div class="mat-tags">
+        <span class="mat"><strong>LQ-01</strong><span lang="fr">Laque finition double vantaux</span><span lang="pl">Lakier wykończeniowy drzwi dwuskrzydłowych</span></span>
+        <span class="mat"><strong>GL-02</strong><span lang="fr">Miroir côté dressing (P26)</span><span lang="pl">Lustro od strony garderoby (P26)</span></span>
+        <span class="mat"><strong>GL-03</strong><span lang="fr">Vitrage P27</span><span lang="pl">Szkło P27</span></span>
+        <span class="mat"><strong>MT-01</strong><span lang="fr">Cadre métal P27</span><span lang="pl">Rama metalowa P27</span></span>
+      </div>
+      <h3><span lang="fr">Notes</span><span lang="pl">Uwagi</span></h3>
+      <p class="notes">
+        <span lang="fr">Quantité ×3 pour la série P26/P30/P37. Charnières invisibles Tectus ou similaire. Spécificité P26 : face dressing R205 plaquée miroir.</span>
+        <span lang="pl">Ilość ×3 dla serii P26/P30/P37. Zawiasy ukryte Tectus lub podobne. Specyfika P26: strona garderoby R205 pokryta lustrem.</span>
+      </p>
+    </div>
+  </div>
+</article>
+
+<!-- ============== FICHE 09 ============== -->
+<article class="fiche" id="p09">
+  <div class="fiche-head">
+    <div class="num-wrap">
+      <div class="num">09</div>
+      <h2>
+        <small><span lang="fr">Niveau R+1 — Portes simples laquées</span><span lang="pl">Poziom 1. piętra — Pojedyncze drzwi lakierowane</span></small>
+        <span lang="fr">Portes P28 &amp; P29 / P31 / P32 / P33 / P34</span>
+        <span lang="pl">Drzwi P28 i P29 / P31 / P32 / P33 / P34</span>
+      </h2>
+    </div>
+    <div class="ref-block"><strong>DET-POR-09</strong>
+      <span lang="fr">Rév.</span><span lang="pl">Wer.</span> C — 24.10.25<br>
+      <span lang="fr">Échelle</span><span lang="pl">Skala</span> 1:20 @ A2</div>
+  </div>
+  <div class="fiche-body">
+    <figure class="plan">
+      <div class="plan-img-wrap">
+        <img src="images/page_09.jpg" alt="DET-POR-09">
+        <div class="brand-overlay">
+          <div class="rwg">Red White Group</div>
+          <div class="rwg-meta">
+            <span class="lab"><span lang="fr">Projet</span><span lang="pl">Projekt</span></span><span>Villa Goto</span>
+            <span class="lab"><span lang="fr">Échelle</span><span lang="pl">Skala</span></span><span>1:20 @ A2</span>
+            <span class="lab"><span lang="fr">Date</span><span lang="pl">Data</span></span><span>04.11.24</span>
+            <span class="lab"><span lang="fr">Niveau</span><span lang="pl">Poziom</span></span><span>R+1</span>
+            <span class="lab"><span lang="fr">Plan n°</span><span lang="pl">Plan nr</span></span><span>DET-POR-09</span>
+            <span class="lab"><span lang="fr">Rév.</span><span lang="pl">Wer.</span></span><span>C — 24.10.25</span>
+          </div>
+        </div>
+      </div>
+      <figcaption>
+        <span lang="fr">Porte simple laquée, série répétée ×4</span>
+        <span lang="pl">Pojedyncze drzwi lakierowane, seria powtarzalna ×4</span>
+      </figcaption>
+    </figure>
+    <div class="infos">
+      <h3><span lang="fr">Portes regroupées</span><span lang="pl">Zestaw drzwi</span></h3>
+      <ul class="doors-list">
+        <li><div class="pname">P28</div><div>
+          <span lang="fr">Porte coulissante</span><span lang="pl">Drzwi przesuwne</span>
+          <span class="badge warn"><span lang="fr">Annulée</span><span lang="pl">Anulowane</span></span>
+          <div class="ploc">—</div>
+        </div></li>
+        <li><div class="pname">P29</div><div>
+          <span lang="fr">Porte simple laquée (porte dessinée)</span><span lang="pl">Pojedyncze drzwi lakierowane (drzwi rysunkowe)</span>
+          <span class="badge">×4</span>
+          <div class="ploc"><span lang="fr">Entre R201 et R209</span><span lang="pl">Między R201 i R209</span></div>
+        </div></li>
+        <li><div class="pname">P31</div><div>
+          <span lang="fr">Porte simple laquée</span><span lang="pl">Pojedyncze drzwi lakierowane</span>
+          <div class="ploc"><span lang="fr">Entre R201 et R204</span><span lang="pl">Między R201 i R204</span></div>
+        </div></li>
+        <li><div class="pname">P32</div><div>
+          <span lang="fr">Porte simple laquée</span><span lang="pl">Pojedyncze drzwi lakierowane</span>
+          <div class="ploc"><span lang="fr">Entre R201 et R211</span><span lang="pl">Między R201 i R211</span></div>
+        </div></li>
+        <li><div class="pname">P33</div><div>
+          <span lang="fr">Porte simple laquée — symétrique</span><span lang="pl">Pojedyncze drzwi lakierowane — symetryczne</span>
+          <div class="ploc"><span lang="fr">Entre R201 et R213</span><span lang="pl">Między R201 i R213</span></div>
+        </div></li>
+        <li><div class="pname">P34</div><div>
+          <span lang="fr">Porte simple laquée</span><span lang="pl">Pojedyncze drzwi lakierowane</span>
+          <div class="ploc"><span lang="fr">Entre R211 et R213</span><span lang="pl">Między R211 i R213</span></div>
+        </div></li>
+      </ul>
+      <h3><span lang="fr">Dimensions principales (mm)</span><span lang="pl">Wymiary główne (mm)</span></h3>
+      <table class="dims">
+        <tr><th><span lang="fr">Passage</span><span lang="pl">Prześwit</span></th><td>2384 H × 800</td></tr>
+        <tr><th><span lang="fr">Hors-tout</span><span lang="pl">Wymiar zewn.</span></th><td>2480 H × 970 L (830 + 70 + 70)</td></tr>
+        <tr><th><span lang="fr">Cadre</span><span lang="pl">Rama</span></th><td>70 mm <span lang="fr">laqué LQ-01</span><span lang="pl">lakier LQ-01</span></td></tr>
+      </table>
+      <h3><span lang="fr">Matériaux &amp; finitions</span><span lang="pl">Materiały i wykończenia</span></h3>
+      <div class="mat-tags">
+        <span class="mat"><strong>LQ-01</strong><span lang="fr">Laque sur huisserie + vantail</span><span lang="pl">Lakier na ościeżnicy i skrzydle</span></span>
+      </div>
+      <h3><span lang="fr">Notes</span><span lang="pl">Uwagi</span></h3>
+      <p class="notes">
+        <span lang="fr">P28 (coulissante) <strong>annulée</strong>. Quantité ×4 pour la série P29/P31/P32/P33/P34 (P33 en symétrique). Charnières invisibles Tectus ou similaire.</span>
+        <span lang="pl">P28 (przesuwne) <strong>anulowane</strong>. Ilość ×4 dla serii P29/P31/P32/P33/P34 (P33 symetryczne). Zawiasy ukryte Tectus lub podobne.</span>
+      </p>
+    </div>
+  </div>
+</article>
+
+<!-- ============== FICHE 10 ============== -->
+<article class="fiche" id="p10">
+  <div class="fiche-head">
+    <div class="num-wrap">
+      <div class="num">10</div>
+      <h2>
+        <small><span lang="fr">Niveau R+1 — Portes salle de bain</span><span lang="pl">Poziom 1. piętra — Drzwi łazienkowe</span></small>
+        <span lang="fr">Portes P35 &amp; P36</span>
+        <span lang="pl">Drzwi P35 i P36</span>
+      </h2>
+    </div>
+    <div class="ref-block"><strong>DET-POR-10</strong>
+      <span lang="fr">Rév.</span><span lang="pl">Wer.</span> C — 13.02.26<br>
+      <span lang="fr">Échelle</span><span lang="pl">Skala</span> 1:20 @ A2</div>
+  </div>
+  <div class="fiche-body">
+    <figure class="plan">
+      <div class="plan-img-wrap">
+        <img src="images/page_10.jpg" alt="DET-POR-10">
+        <div class="brand-overlay">
+          <div class="rwg">Red White Group</div>
+          <div class="rwg-meta">
+            <span class="lab"><span lang="fr">Projet</span><span lang="pl">Projekt</span></span><span>Villa Goto</span>
+            <span class="lab"><span lang="fr">Échelle</span><span lang="pl">Skala</span></span><span>1:20 @ A2</span>
+            <span class="lab"><span lang="fr">Date</span><span lang="pl">Data</span></span><span>02.08.24</span>
+            <span class="lab"><span lang="fr">Niveau</span><span lang="pl">Poziom</span></span><span>R+1</span>
+            <span class="lab"><span lang="fr">Plan n°</span><span lang="pl">Plan nr</span></span><span>DET-POR-10</span>
+            <span class="lab"><span lang="fr">Rév.</span><span lang="pl">Wer.</span></span><span>C — 13.02.26</span>
+          </div>
+        </div>
+      </div>
+      <figcaption>
+        <span lang="fr">Portes vitrées étroites — accès toilettes / douche R212</span>
+        <span lang="pl">Wąskie drzwi szklane — wejścia toaleta / prysznic R212</span>
+      </figcaption>
+    </figure>
+    <div class="infos">
+      <h3><span lang="fr">Portes regroupées</span><span lang="pl">Zestaw drzwi</span></h3>
+      <ul class="doors-list">
+        <li><div class="pname">P35</div><div>
+          <span lang="fr">Porte vitrée étroite — accès toilettes</span><span lang="pl">Wąskie drzwi szklane — wejście do toalety</span>
+          <div class="ploc">R212 — <span lang="fr">Toilet</span><span lang="pl">Toaleta</span></div>
+        </div></li>
+        <li><div class="pname">P36</div><div>
+          <span lang="fr">Porte vitrée étroite — accès douche</span><span lang="pl">Wąskie drzwi szklane — wejście do prysznica</span>
+          <div class="ploc">R212 — <span lang="fr">Douche</span><span lang="pl">Prysznic</span></div>
+        </div></li>
+      </ul>
+      <h3><span lang="fr">Dimensions principales (mm)</span><span lang="pl">Wymiary główne (mm)</span></h3>
+      <table class="dims">
+        <tr><th><span lang="fr">Passage</span><span lang="pl">Prześwit</span></th><td>2315 H × 613</td></tr>
+        <tr><th><span lang="fr">Hors-tout</span><span lang="pl">Wymiar zewn.</span></th><td>2350 H × 733 L (<span lang="fr">brut</span><span lang="pl">surowy</span>)</td></tr>
+        <tr><th><span lang="fr">Vantail</span><span lang="pl">Skrzydło</span></th><td>2319 H × 633 L</td></tr>
+        <tr><th><span lang="fr">Embrasure</span><span lang="pl">Ościeże</span></th><td>683 mm — <span lang="fr">cadre métal</span><span lang="pl">rama metal</span> 25 mm</td></tr>
+      </table>
+      <h3><span lang="fr">Matériaux &amp; finitions</span><span lang="pl">Materiały i wykończenia</span></h3>
+      <div class="mat-tags">
+        <span class="mat"><strong>MT-01</strong><span lang="fr">Cadre métal noir</span><span lang="pl">Rama metalowa czarna</span></span>
+        <span class="mat"><strong>GL-03</strong><span lang="fr">Vitrage clair</span><span lang="pl">Szkło przezroczyste</span></span>
+        <span class="mat"><strong>ST-04</strong><span lang="fr">Pierre / habillage embrasure</span><span lang="pl">Kamień / wykończenie ościeża</span></span>
+        <span class="mat"><strong>PT-01</strong><span lang="fr">Peinture (P35)</span><span lang="pl">Farba (P35)</span></span>
+      </div>
+      <h3><span lang="fr">Notes</span><span lang="pl">Uwagi</span></h3>
+      <p class="notes">
+        <span lang="fr">Portes étroites de salle de bain (633 mm) intégrées dans niches en pierre ST-04. P35 : version toilette (côté PT-01) ; P36 : version douche (côté ST-04 sur les deux faces).</span>
+        <span lang="pl">Wąskie drzwi łazienkowe (633 mm) zintegrowane w niszach kamiennych ST-04. P35: wersja toaleta (strona PT-01); P36: wersja prysznic (ST-04 z obu stron).</span>
+      </p>
+    </div>
+  </div>
+</article>
+
+<!-- ============== FICHE 11 ============== -->
+<article class="fiche" id="p11">
+  <div class="fiche-head">
+    <div class="num-wrap">
+      <div class="num">11</div>
+      <h2>
+        <small><span lang="fr">Niveau R+2 — Portes étage des chambres</span><span lang="pl">Poziom 2. piętra — Drzwi piętra sypialnianego</span></small>
+        <span lang="fr">Portes P38 / P39 / P40 &amp; P42 / P43 / P44</span>
+        <span lang="pl">Drzwi P38 / P39 / P40 i P42 / P43 / P44</span>
+      </h2>
+    </div>
+    <div class="ref-block"><strong>DET-POR-11</strong>
+      <span lang="fr">Rév.</span><span lang="pl">Wer.</span> B — 24.10.25<br>
+      <span lang="fr">Échelle</span><span lang="pl">Skala</span> 1:20 @ A2</div>
+  </div>
+  <div class="fiche-body">
+    <figure class="plan">
+      <div class="plan-img-wrap">
+        <img src="images/page_11.jpg" alt="DET-POR-11">
+        <div class="brand-overlay">
+          <div class="rwg">Red White Group</div>
+          <div class="rwg-meta">
+            <span class="lab"><span lang="fr">Projet</span><span lang="pl">Projekt</span></span><span>Villa Goto</span>
+            <span class="lab"><span lang="fr">Échelle</span><span lang="pl">Skala</span></span><span>1:20 @ A2</span>
+            <span class="lab"><span lang="fr">Date</span><span lang="pl">Data</span></span><span>02.08.24</span>
+            <span class="lab"><span lang="fr">Niveau</span><span lang="pl">Poziom</span></span><span>R+2</span>
+            <span class="lab"><span lang="fr">Plan n°</span><span lang="pl">Plan nr</span></span><span>DET-POR-11</span>
+            <span class="lab"><span lang="fr">Rév.</span><span lang="pl">Wer.</span></span><span>B — 24.10.25</span>
+          </div>
+        </div>
+      </div>
+      <figcaption>
+        <span lang="fr">Deux familles de portes simples — laquées et peintes</span>
+        <span lang="pl">Dwie rodziny pojedynczych drzwi — lakierowane i malowane</span>
+      </figcaption>
+    </figure>
+    <div class="infos">
+      <h3><span lang="fr">Portes regroupées</span><span lang="pl">Zestaw drzwi</span></h3>
+      <ul class="doors-list">
+        <li><div class="pname">P38</div><div>
+          <span lang="fr">Porte simple laquée — symétrique</span><span lang="pl">Pojedyncze drzwi lakierowane — symetryczne</span>
+          <span class="badge">×3</span>
+          <div class="ploc"><span lang="fr">Entre R307 et R310</span><span lang="pl">Między R307 i R310</span></div>
+        </div></li>
+        <li><div class="pname">P39</div><div>
+          <span lang="fr">Porte simple laquée (porte dessinée)</span><span lang="pl">Pojedyncze drzwi lakierowane (drzwi rysunkowe)</span>
+          <div class="ploc"><span lang="fr">Entre R308 et R310</span><span lang="pl">Między R308 i R310</span></div>
+        </div></li>
+        <li><div class="pname">P40</div><div>
+          <span lang="fr">Porte simple laquée</span><span lang="pl">Pojedyncze drzwi lakierowane</span>
+          <div class="ploc"><span lang="fr">Entre R304 et R308</span><span lang="pl">Między R304 i R308</span></div>
+        </div></li>
+        <li><div class="pname">P42</div><div>
+          <span lang="fr">Porte simple peinte — symétrique</span><span lang="pl">Pojedyncze drzwi malowane — symetryczne</span>
+          <span class="badge">×3</span>
+          <div class="ploc"><span lang="fr">Entre R302 et R305</span><span lang="pl">Między R302 i R305</span></div>
+        </div></li>
+        <li><div class="pname">P43</div><div>
+          <span lang="fr">Porte simple peinte (porte dessinée)</span><span lang="pl">Pojedyncze drzwi malowane (drzwi rysunkowe)</span>
+          <div class="ploc"><span lang="fr">Entre R302 et R306</span><span lang="pl">Między R302 i R306</span></div>
+        </div></li>
+        <li><div class="pname">P44</div><div>
+          <span lang="fr">Porte simple peinte</span><span lang="pl">Pojedyncze drzwi malowane</span>
+          <div class="ploc">—</div>
+        </div></li>
+      </ul>
+      <h3><span lang="fr">Dimensions principales (mm)</span><span lang="pl">Wymiary główne (mm)</span></h3>
+      <table class="dims">
+        <tr><th>P38 / P39 / P40 — <span lang="fr">hors-tout</span><span lang="pl">wymiar zewn.</span></th><td>2054 H × 970 L (830 + 70 + 70)</td></tr>
+        <tr><th>P38 / P39 / P40 — <span lang="fr">passage</span><span lang="pl">prześwit</span></th><td>2040 H × 800</td></tr>
+        <tr><th>P42 / P43 / P44 — <span lang="fr">hors-tout</span><span lang="pl">wymiar zewn.</span></th><td>2111 H × 822 L</td></tr>
+        <tr><th>P42 / P43 / P44 — <span lang="fr">passage</span><span lang="pl">prześwit</span></th><td>2100 H × 800</td></tr>
+      </table>
+      <h3><span lang="fr">Matériaux &amp; finitions</span><span lang="pl">Materiały i wykończenia</span></h3>
+      <div class="mat-tags">
+        <span class="mat"><strong>LQ-01</strong><span lang="fr">Laque (série P38/39/40)</span><span lang="pl">Lakier (seria P38/39/40)</span></span>
+        <span class="mat"><strong>PT-01</strong><span lang="fr">Peinture (série P42/43/44)</span><span lang="pl">Farba (seria P42/43/44)</span></span>
+      </div>
+      <h3><span lang="fr">Notes</span><span lang="pl">Uwagi</span></h3>
+      <p class="notes">
+        <span lang="fr">Deux séries ×3. Bloc-porte à <strong>huisserie invisible</strong> et <strong>isolation acoustique</strong> intégrée. Charnières invisibles Tectus ou similaire. P33/P38/P42 sont les symétriques de leurs portes dessinées.</span>
+        <span lang="pl">Dwie serie ×3. Blok drzwiowy z <strong>ukrytą ościeżnicą</strong> i wbudowaną <strong>izolacją akustyczną</strong>. Zawiasy ukryte Tectus lub podobne. P33/P38/P42 są symetryczne wobec drzwi rysunkowych.</span>
+      </p>
+    </div>
+  </div>
+</article>
+
+</main>
+
+<footer>
+  <span lang="fr">Catalogue Villa Goto — Red White Group.<br>NE PAS METTRE À L'ÉCHELLE. Toutes les dimensions doivent être vérifiées sur site avant fabrication.</span>
+  <span lang="pl">Katalog Villa Goto — Red White Group.<br>NIE SKALOWAĆ Z RYSUNKU. Wszystkie wymiary należy sprawdzić na miejscu przed produkcją.</span>
+</footer>
+
+<script>
+  (function () {
+    const root = document.body;
+    const buttons = document.querySelectorAll('.lang-toggle button');
+    function setLang(lang) {
+      root.setAttribute('lang', lang);
+      document.documentElement.setAttribute('lang', lang);
+      buttons.forEach(b => b.classList.toggle('active', b.dataset.setLang === lang));
+      try { localStorage.setItem('rwg-lang', lang); } catch (_) {}
+    }
+    buttons.forEach(b => b.addEventListener('click', () => setLang(b.dataset.setLang)));
+    let initial = 'fr';
+    try {
+      const stored = localStorage.getItem('rwg-lang');
+      if (stored === 'fr' || stored === 'pl') initial = stored;
+    } catch (_) {}
+    setLang(initial);
+  })();
+
+  // Floor-plan hover swap: each door li carries data-floor-img + data-x + data-y.
+  // On hover: swap the figure's <img> to the floor plan and reveal a marker circle.
+  (function () {
+    document.querySelectorAll('article.fiche').forEach(fiche => {
+      const wrap = fiche.querySelector('.plan-img-wrap');
+      if (!wrap) return;
+      const img = wrap.querySelector('img');
+      // Remember original detail image to restore on mouse leave
+      wrap.dataset.defaultSrc = img.getAttribute('src');
+
+      // Inject the locator dot + floor tag once per fiche
+      const locator = document.createElement('div');
+      locator.className = 'locator';
+      wrap.appendChild(locator);
+
+      const tag = document.createElement('div');
+      tag.className = 'floor-tag';
+      wrap.appendChild(tag);
+
+      fiche.querySelectorAll('.doors-list li[data-floor-img]').forEach(li => {
+        const enter = () => {
+          const src = li.dataset.floorImg;
+          if (img.getAttribute('src') !== src) img.setAttribute('src', src);
+          locator.style.left = li.dataset.x;
+          locator.style.top = li.dataset.y;
+          tag.textContent = (li.dataset.floorLabel || '') + ' · ' + li.querySelector('.pname').textContent;
+          wrap.classList.add('floor-mode');
+        };
+        const leave = () => {
+          img.setAttribute('src', wrap.dataset.defaultSrc);
+          wrap.classList.remove('floor-mode');
+        };
+        li.addEventListener('mouseenter', enter);
+        li.addEventListener('mouseleave', leave);
+        // Touch / focus support
+        li.addEventListener('focusin', enter);
+        li.addEventListener('focusout', leave);
+      });
+    });
+  })();
+</script>
+
+</body>
+</html>
