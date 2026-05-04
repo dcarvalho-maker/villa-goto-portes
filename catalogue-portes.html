@@ -467,6 +467,94 @@
     margin: 0;
   }
 
+  /* === Question zone (per fiche) === */
+  .infos .q-h3 {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--muted);
+    font-weight: 500;
+    margin: 18px 0 8px;
+    padding-top: 12px;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .infos .q-h3::before {
+    content: "✎";
+    color: var(--accent);
+    font-size: 14px;
+  }
+  textarea.question-field {
+    width: 100%;
+    min-height: 70px;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    background: #fff;
+    padding: 10px 12px;
+    font-family: inherit;
+    font-size: 13px;
+    color: var(--ink);
+    line-height: 1.5;
+    resize: vertical;
+    transition: border-color .15s, box-shadow .15s;
+  }
+  textarea.question-field:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(138, 106, 59, 0.15);
+  }
+  textarea.question-field.has-content {
+    border-color: var(--accent);
+    background: #fdfbf7;
+  }
+
+  /* === Send-questions sticky bar === */
+  .send-bar {
+    position: sticky;
+    bottom: 0;
+    z-index: 90;
+    background: rgba(251, 250, 247, 0.96);
+    backdrop-filter: saturate(120%) blur(6px);
+    -webkit-backdrop-filter: saturate(120%) blur(6px);
+    border-top: 1px solid var(--rule);
+    padding: 14px 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .send-bar .send-status {
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .send-bar .send-status .count {
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .send-bar button.send-btn {
+    appearance: none;
+    border: 0;
+    background: var(--ink);
+    color: #fff;
+    padding: 10px 22px;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    border-radius: 999px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background-color .15s, transform .15s;
+  }
+  .send-bar button.send-btn:hover { background: var(--accent); transform: translateY(-1px); }
+  .send-bar button.send-btn:disabled {
+    background: #c8c4ba;
+    color: #fff;
+    cursor: not-allowed;
+    transform: none;
+  }
+
   footer {
     padding: 24px 64px;
     font-size: 11px;
@@ -477,12 +565,17 @@
 
   @media print {
     body { background: #fff; }
-    .lang-bar { display: none; }
+    .lang-bar, .send-bar { display: none; }
     nav.toc { page-break-after: always; }
     article.fiche { padding: 24px 0; }
     .fiche-head .num { font-size: 36px; }
     figure.plan { border: 1px solid #ccc; }
     a { color: var(--ink); text-decoration: none; }
+    textarea.question-field { display: none; }
+    .infos .q-h3 { display: none; }
+  }
+  @media (max-width: 1000px) {
+    .send-bar { padding-left: 24px; padding-right: 24px; }
   }
 </style>
 </head>
@@ -612,6 +705,13 @@
         <span lang="fr">Quantité ×2 pour P01 et P02 (paire). Porte dessinée de référence : P02. Vitrages chevronnés type atelier, dormant métallique noir. P03 cintrée pleine en peinture.</span>
         <span lang="pl">Ilość ×2 dla P01 i P02 (para). Drzwi rysunkowe odniesienia: P02. Szklenie w jodełkę typu atelier, ościeżnica metalowa czarna. P03 łukowe pełne malowane.</span>
       </p>
+      <h3 class="q-h3">
+        <span lang="fr">Question / commentaire</span>
+        <span lang="pl">Pytanie / komentarz</span>
+      </h3>
+      <textarea class="question-field" rows="3"
+        data-fr-placeholder="Saisir ici votre question pour cette série de portes…"
+        data-pl-placeholder="Wpisz tutaj swoje pytanie dotyczące tej serii drzwi…"></textarea>
     </div>
   </div>
 </article>
@@ -689,6 +789,13 @@
         <span lang="fr">Charnières invisibles type Tectus ou similaire. P07 et P09 forment une paire (×2). P08 isolée.</span>
         <span lang="pl">Zawiasy ukryte typu Tectus lub podobne. P07 i P09 tworzą parę (×2). P08 osobno.</span>
       </p>
+      <h3 class="q-h3">
+        <span lang="fr">Question / commentaire</span>
+        <span lang="pl">Pytanie / komentarz</span>
+      </h3>
+      <textarea class="question-field" rows="3"
+        data-fr-placeholder="Saisir ici votre question pour cette série de portes…"
+        data-pl-placeholder="Wpisz tutaj swoje pytanie dotyczące tej serii drzwi…"></textarea>
     </div>
   </div>
 </article>
@@ -758,6 +865,13 @@
         <span lang="fr">P13 : ensemble composé d'une porte (2120 H) et d'une imposte fixe (≈ 500 H) pour atteindre une hauteur d'huisserie totale 2550. Encadrement bois 45 mm.</span>
         <span lang="pl">P13: zestaw drzwi (2120 wys.) i stałego naświetla (≈ 500 wys.) o łącznej wysokości ościeżnicy 2550. Obudowa drewniana 45 mm.</span>
       </p>
+      <h3 class="q-h3">
+        <span lang="fr">Question / commentaire</span>
+        <span lang="pl">Pytanie / komentarz</span>
+      </h3>
+      <textarea class="question-field" rows="3"
+        data-fr-placeholder="Saisir ici votre question pour cette série de portes…"
+        data-pl-placeholder="Wpisz tutaj swoje pytanie dotyczące tej serii drzwi…"></textarea>
     </div>
   </div>
 </article>
@@ -829,6 +943,13 @@
         <span lang="fr">P17 : porte cintrée à barres horizontales (style atelier) intégrée dans embrasure cintrée. P18 : porte de grande hauteur (2,42 m) en peinture mate.</span>
         <span lang="pl">P17: drzwi łukowe z poziomymi szczeblinami (styl atelier) zintegrowane w łukowym ościeżu. P18: drzwi wysokie (2,42 m) malowane matowo.</span>
       </p>
+      <h3 class="q-h3">
+        <span lang="fr">Question / commentaire</span>
+        <span lang="pl">Pytanie / komentarz</span>
+      </h3>
+      <textarea class="question-field" rows="3"
+        data-fr-placeholder="Saisir ici votre question pour cette série de portes…"
+        data-pl-placeholder="Wpisz tutaj swoje pytanie dotyczące tej serii drzwi…"></textarea>
     </div>
   </div>
 </article>
@@ -897,6 +1018,13 @@
         <span lang="fr">Pièce maîtresse : grande porte vitrée cintrée à imposte fixe et deux vantaux à barres horizontales. Profilés acier laqués noirs, vitrage clair en chevrons.</span>
         <span lang="pl">Element centralny: duże szklane drzwi łukowe z naświetlem stałym i dwoma skrzydłami z poziomymi szczeblinami. Profile stalowe lakierowane czarne, szkło przezroczyste w jodełkę.</span>
       </p>
+      <h3 class="q-h3">
+        <span lang="fr">Question / commentaire</span>
+        <span lang="pl">Pytanie / komentarz</span>
+      </h3>
+      <textarea class="question-field" rows="3"
+        data-fr-placeholder="Saisir ici votre question pour cette série de portes…"
+        data-pl-placeholder="Wpisz tutaj swoje pytanie dotyczące tej serii drzwi…"></textarea>
     </div>
   </div>
 </article>
@@ -969,6 +1097,13 @@
         <span lang="fr">P21 « à ajuster, idem PF07 » : cotes finales à harmoniser avec la baie PF07. Hauteurs à vérifier sur site avant fabrication.</span>
         <span lang="pl">P21 „do dopasowania, jak PF07": wymiary końcowe zharmonizować z otworem PF07. Wysokości sprawdzić na miejscu przed produkcją.</span>
       </p>
+      <h3 class="q-h3">
+        <span lang="fr">Question / commentaire</span>
+        <span lang="pl">Pytanie / komentarz</span>
+      </h3>
+      <textarea class="question-field" rows="3"
+        data-fr-placeholder="Saisir ici votre question pour cette série de portes…"
+        data-pl-placeholder="Wpisz tutaj swoje pytanie dotyczące tej serii drzwi…"></textarea>
     </div>
   </div>
 </article>
@@ -1038,6 +1173,13 @@
         <span lang="fr">Portes vitrées rectangulaires de grande hauteur (≈ 2,50 m), un seul vantail, finition métal et verre.</span>
         <span lang="pl">Wysokie drzwi szklane prostokątne (≈ 2,50 m), pojedyncze skrzydło, wykończenie metal i szkło.</span>
       </p>
+      <h3 class="q-h3">
+        <span lang="fr">Question / commentaire</span>
+        <span lang="pl">Pytanie / komentarz</span>
+      </h3>
+      <textarea class="question-field" rows="3"
+        data-fr-placeholder="Saisir ici votre question pour cette série de portes…"
+        data-pl-placeholder="Wpisz tutaj swoje pytanie dotyczące tej serii drzwi…"></textarea>
     </div>
   </div>
 </article>
@@ -1118,6 +1260,13 @@
         <span lang="fr">Quantité ×3 pour la série P26/P30/P37. Charnières invisibles Tectus ou similaire. Spécificité P26 : face dressing R205 plaquée miroir.</span>
         <span lang="pl">Ilość ×3 dla serii P26/P30/P37. Zawiasy ukryte Tectus lub podobne. Specyfika P26: strona garderoby R205 pokryta lustrem.</span>
       </p>
+      <h3 class="q-h3">
+        <span lang="fr">Question / commentaire</span>
+        <span lang="pl">Pytanie / komentarz</span>
+      </h3>
+      <textarea class="question-field" rows="3"
+        data-fr-placeholder="Saisir ici votre question pour cette série de portes…"
+        data-pl-placeholder="Wpisz tutaj swoje pytanie dotyczące tej serii drzwi…"></textarea>
     </div>
   </div>
 </article>
@@ -1203,6 +1352,13 @@
         <span lang="fr">P28 (coulissante) <strong>annulée</strong>. Quantité ×4 pour la série P29/P31/P32/P33/P34 (P33 en symétrique). Charnières invisibles Tectus ou similaire.</span>
         <span lang="pl">P28 (przesuwne) <strong>anulowane</strong>. Ilość ×4 dla serii P29/P31/P32/P33/P34 (P33 symetryczne). Zawiasy ukryte Tectus lub podobne.</span>
       </p>
+      <h3 class="q-h3">
+        <span lang="fr">Question / commentaire</span>
+        <span lang="pl">Pytanie / komentarz</span>
+      </h3>
+      <textarea class="question-field" rows="3"
+        data-fr-placeholder="Saisir ici votre question pour cette série de portes…"
+        data-pl-placeholder="Wpisz tutaj swoje pytanie dotyczące tej serii drzwi…"></textarea>
     </div>
   </div>
 </article>
@@ -1274,6 +1430,13 @@
         <span lang="fr">Portes étroites de salle de bain (633 mm) intégrées dans niches en pierre ST-04. P35 : version toilette (côté PT-01) ; P36 : version douche (côté ST-04 sur les deux faces).</span>
         <span lang="pl">Wąskie drzwi łazienkowe (633 mm) zintegrowane w niszach kamiennych ST-04. P35: wersja toaleta (strona PT-01); P36: wersja prysznic (ST-04 z obu stron).</span>
       </p>
+      <h3 class="q-h3">
+        <span lang="fr">Question / commentaire</span>
+        <span lang="pl">Pytanie / komentarz</span>
+      </h3>
+      <textarea class="question-field" rows="3"
+        data-fr-placeholder="Saisir ici votre question pour cette série de portes…"
+        data-pl-placeholder="Wpisz tutaj swoje pytanie dotyczące tej serii drzwi…"></textarea>
     </div>
   </div>
 </article>
@@ -1361,11 +1524,29 @@
         <span lang="fr">Deux séries ×3. Bloc-porte à <strong>huisserie invisible</strong> et <strong>isolation acoustique</strong> intégrée. Charnières invisibles Tectus ou similaire. P33/P38/P42 sont les symétriques de leurs portes dessinées.</span>
         <span lang="pl">Dwie serie ×3. Blok drzwiowy z <strong>ukrytą ościeżnicą</strong> i wbudowaną <strong>izolacją akustyczną</strong>. Zawiasy ukryte Tectus lub podobne. P33/P38/P42 są symetryczne wobec drzwi rysunkowych.</span>
       </p>
+      <h3 class="q-h3">
+        <span lang="fr">Question / commentaire</span>
+        <span lang="pl">Pytanie / komentarz</span>
+      </h3>
+      <textarea class="question-field" rows="3"
+        data-fr-placeholder="Saisir ici votre question pour cette série de portes…"
+        data-pl-placeholder="Wpisz tutaj swoje pytanie dotyczące tej serii drzwi…"></textarea>
     </div>
   </div>
 </article>
 
 </main>
+
+<div class="send-bar">
+  <div class="send-status">
+    <span lang="fr"><span class="count" id="q-count">0</span> question(s) prête(s) à envoyer</span>
+    <span lang="pl"><span class="count" id="q-count-pl">0</span> pytanie(a) gotowe do wysłania</span>
+  </div>
+  <button type="button" id="send-questions" class="send-btn" disabled>
+    <span lang="fr">Envoyer les questions</span>
+    <span lang="pl">Wyślij pytania</span>
+  </button>
+</div>
 
 <footer>
   <span lang="fr">Catalogue Villa Goto — Red White Group.<br>NE PAS METTRE À L'ÉCHELLE. Toutes les dimensions doivent être vérifiées sur site avant fabrication.</span>
@@ -1376,10 +1557,16 @@
   (function () {
     const root = document.body;
     const buttons = document.querySelectorAll('.lang-toggle button');
+    function updatePlaceholders(lang) {
+      document.querySelectorAll('textarea.question-field').forEach(ta => {
+        ta.placeholder = ta.dataset[`${lang}Placeholder`] || '';
+      });
+    }
     function setLang(lang) {
       root.setAttribute('lang', lang);
       document.documentElement.setAttribute('lang', lang);
       buttons.forEach(b => b.classList.toggle('active', b.dataset.setLang === lang));
+      updatePlaceholders(lang);
       try { localStorage.setItem('rwg-lang', lang); } catch (_) {}
     }
     buttons.forEach(b => b.addEventListener('click', () => setLang(b.dataset.setLang)));
@@ -1389,6 +1576,86 @@
       if (stored === 'fr' || stored === 'pl') initial = stored;
     } catch (_) {}
     setLang(initial);
+  })();
+
+  // === Question textareas + Send-questions mailto ===
+  (function () {
+    const RECIPIENT = 'd.carvalho@l2concept.com';
+    const sendBtn = document.getElementById('send-questions');
+    const countEl = document.getElementById('q-count');
+    const countElPl = document.getElementById('q-count-pl');
+    const fields = document.querySelectorAll('textarea.question-field');
+
+    function refreshCount() {
+      let n = 0;
+      fields.forEach(ta => {
+        const has = ta.value.trim().length > 0;
+        ta.classList.toggle('has-content', has);
+        if (has) n++;
+      });
+      countEl.textContent = n;
+      countElPl.textContent = n;
+      sendBtn.disabled = n === 0;
+    }
+
+    fields.forEach(ta => ta.addEventListener('input', refreshCount));
+    refreshCount();
+
+    function sectionTitle(fiche) {
+      const num = (fiche.querySelector('.fiche-head .num') || {}).textContent || '';
+      const codes = Array.from(fiche.querySelectorAll('.doors-list .pname'))
+        .map(e => e.textContent.trim()).filter(Boolean).join(' / ');
+      return `Fiche ${num.trim()} — ${codes}`;
+    }
+
+    sendBtn.addEventListener('click', () => {
+      const lang = document.body.getAttribute('lang') || 'fr';
+      const dict = {
+        fr: {
+          subject: 'Villa Goto — Questions catalogue portes',
+          intro: 'Bonjour,\n\nVoici mes questions / commentaires sur le catalogue Villa Goto :',
+          empty: 'Aucune question saisie.',
+          link: 'Catalogue : https://raw.githack.com/dcarvalho-maker/villa-goto-portes/main/index.html',
+          regards: 'Cordialement,'
+        },
+        pl: {
+          subject: 'Villa Goto — Pytania do katalogu drzwi',
+          intro: 'Dzień dobry,\n\nPoniżej moje pytania / komentarze do katalogu Villa Goto:',
+          empty: 'Nie wpisano żadnych pytań.',
+          link: 'Katalog: https://raw.githack.com/dcarvalho-maker/villa-goto-portes/main/index.html',
+          regards: 'Z wyrazami szacunku,'
+        }
+      }[lang === 'pl' ? 'pl' : 'fr'];
+
+      const blocks = [];
+      document.querySelectorAll('article.fiche').forEach(fiche => {
+        const ta = fiche.querySelector('textarea.question-field');
+        if (ta && ta.value.trim()) {
+          blocks.push(`=== ${sectionTitle(fiche)} ===\n${ta.value.trim()}`);
+        }
+      });
+
+      if (!blocks.length) {
+        alert(dict.empty);
+        return;
+      }
+
+      const body = [
+        dict.intro,
+        '',
+        blocks.join('\n\n'),
+        '',
+        '---',
+        dict.link,
+        '',
+        dict.regards
+      ].join('\n');
+
+      const mailto = `mailto:${RECIPIENT}`
+        + `?subject=${encodeURIComponent(dict.subject)}`
+        + `&body=${encodeURIComponent(body)}`;
+      window.location.href = mailto;
+    });
   })();
 
   // Floor-plan hover swap: each door li carries data-floor-img + data-x + data-y.
