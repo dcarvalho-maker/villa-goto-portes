@@ -119,6 +119,105 @@
     margin-top: 2px;
   }
 
+  /* === Intro panel === */
+  section.intro {
+    padding: 40px 64px;
+    border-bottom: 1px solid var(--rule);
+    background: linear-gradient(180deg, #fff 0%, var(--paper) 100%);
+  }
+  section.intro .intro-eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-size: 11px;
+    color: var(--accent);
+    margin-bottom: 12px;
+    font-weight: 500;
+  }
+  section.intro h2 {
+    font-size: 26px;
+    font-weight: 300;
+    margin: 0 0 16px;
+    letter-spacing: -0.01em;
+  }
+  section.intro p {
+    margin: 0 0 14px;
+    max-width: 780px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--ink);
+  }
+  section.intro p.lead {
+    font-size: 15px;
+    color: var(--ink);
+  }
+  section.intro .signature {
+    margin-top: 20px;
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+  section.intro .signature strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+  section.intro .howto {
+    margin-top: 24px;
+    padding: 20px 24px;
+    border: 1px solid var(--rule);
+    background: #fff;
+    border-radius: 4px;
+    max-width: 820px;
+  }
+  section.intro .howto h3 {
+    margin: 0 0 14px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--muted);
+    font-weight: 500;
+  }
+  section.intro .howto ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: step;
+  }
+  section.intro .howto ol li {
+    padding: 8px 0 8px 36px;
+    border-bottom: 1px dotted var(--rule);
+    counter-increment: step;
+    position: relative;
+    font-size: 13px;
+    line-height: 1.55;
+  }
+  section.intro .howto ol li:last-child { border-bottom: 0; }
+  section.intro .howto ol li::before {
+    content: counter(step, decimal-leading-zero);
+    position: absolute;
+    left: 0;
+    top: 8px;
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+  }
+  section.intro .howto ol li strong {
+    color: var(--ink);
+    font-weight: 600;
+    margin-right: 4px;
+  }
+  section.intro .howto ol li code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    background: var(--tag);
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-size: 0.9em;
+  }
+  @media (max-width: 1000px) {
+    section.intro { padding-left: 24px; padding-right: 24px; }
+  }
+
   /* === TOC === */
   nav.toc {
     padding: 32px 64px;
@@ -607,6 +706,63 @@
     <span><span lang="fr">Édition</span><span lang="pl">Edycja</span><strong><span lang="fr">04 mai 2026</span><span lang="pl">4 maja 2026</span></strong></span>
   </div>
 </header>
+
+<section class="intro">
+  <div class="intro-eyebrow">
+    <span lang="fr">Demande de chiffrage</span>
+    <span lang="pl">Zapytanie ofertowe</span>
+  </div>
+  <h2>
+    <span lang="fr">Bonjour,</span>
+    <span lang="pl">Dzień dobry,</span>
+  </h2>
+  <p class="lead">
+    <span lang="fr">Vous trouverez dans ce catalogue le détail des <strong>11 planches de menuiserie intérieure</strong> du projet <strong>Villa Goto</strong>, soit <strong>28 portes actives</strong> (P28 annulée) réparties sur 4 niveaux : R-1, RDC, R+1 et R+2.</span>
+    <span lang="pl">W niniejszym katalogu znajdują się szczegóły <strong>11 plansz stolarki wewnętrznej</strong> projektu <strong>Villa Goto</strong>, tj. <strong>28 aktywnych drzwi</strong> (P28 anulowane) rozmieszczonych na 4 poziomach: R-1, parter, 1. piętro i 2. piętro.</span>
+  </p>
+  <p>
+    <span lang="fr">Nous sollicitons votre meilleure offre de chiffrage <strong>poste par poste</strong> (fiche par fiche), incluant : fourniture, finitions (matériaux MT-01, GL-01 à GL-04, PT-01 à PT-05, LQ-01, ST-04…), quincaillerie (charnières invisibles type Tectus / Simonswerk pour les portes pleines), pose et délais. Vos questions ou demandes de précisions sont les bienvenues — utilisez le champ « Question / commentaire » prévu sous chaque fiche.</span>
+    <span lang="pl">Prosimy o przygotowanie najlepszej oferty wyceny <strong>pozycja po pozycji</strong> (fiszka po fiszce), obejmującej: dostawę, wykończenia (materiały MT-01, GL-01 do GL-04, PT-01 do PT-05, LQ-01, ST-04…), okucia (zawiasy ukryte typu Tectus / Simonswerk dla drzwi pełnych), montaż i terminy. Pytania i prośby o doprecyzowanie są mile widziane — prosimy korzystać z pola „Pytanie / komentarz" pod każdą fiszką.</span>
+  </p>
+
+  <div class="howto">
+    <h3>
+      <span lang="fr">Mode d'emploi du catalogue</span>
+      <span lang="pl">Instrukcja korzystania z katalogu</span>
+    </h3>
+    <ol>
+      <li>
+        <span lang="fr"><strong>Langue :</strong> bouton <code>Français / Polski</code> en haut à droite de la page (préférence mémorisée pour vos prochaines visites).</span>
+        <span lang="pl"><strong>Język:</strong> przycisk <code>Français / Polski</code> w prawym górnym rogu strony (preferencja zapamiętywana przy kolejnych odwiedzinach).</span>
+      </li>
+      <li>
+        <span lang="fr"><strong>Sommaire :</strong> 11 fiches détaillées (DET-POR-01 à DET-POR-11). Cliquez sur un numéro pour accéder directement à la fiche.</span>
+        <span lang="pl"><strong>Spis treści:</strong> 11 szczegółowych fiszek (DET-POR-01 do DET-POR-11). Kliknij numer, aby przejść bezpośrednio do fiszki.</span>
+      </li>
+      <li>
+        <span lang="fr"><strong>Plan de localisation :</strong> dans la liste des portes (colonne de droite de chaque fiche), <strong>survolez une porte du R-1</strong> — la planche détail est remplacée par le plan d'implantation, avec un repère rouge pulsant qui localise la porte.</span>
+        <span lang="pl"><strong>Plan lokalizacji:</strong> na liście drzwi (prawa kolumna każdej fiszki), <strong>najedź kursorem na drzwi z poziomu R-1</strong> — plansza szczegółowa zostaje zastąpiona planem implantacji z pulsującym czerwonym znacznikiem lokalizującym drzwi.</span>
+      </li>
+      <li>
+        <span lang="fr"><strong>Saisie des questions :</strong> sous chaque fiche, un champ « <strong>Question / commentaire</strong> » est prévu pour formuler vos remarques propres à cette série de portes (matériaux, dimensions, charnières, délais, etc.).</span>
+        <span lang="pl"><strong>Wpisywanie pytań:</strong> pod każdą fiszką znajduje się pole „<strong>Pytanie / komentarz</strong>" do wpisania uwag dotyczących danej serii drzwi (materiały, wymiary, zawiasy, terminy itp.).</span>
+      </li>
+      <li>
+        <span lang="fr"><strong>Envoi groupé :</strong> en bas de page, une barre indique en temps réel le nombre de questions saisies. Cliquez sur <code>Envoyer les questions</code> — vos remarques seront <strong>compilées par section</strong> et l'application ouvrira votre messagerie pré-remplie à <code>d.carvalho@l2concept.com</code>. Il ne vous restera qu'à valider l'envoi.</span>
+        <span lang="pl"><strong>Wysyłka zbiorcza:</strong> na dole strony pasek pokazuje na bieżąco liczbę wpisanych pytań. Kliknij <code>Wyślij pytania</code> — Państwa uwagi zostaną <strong>skompilowane według sekcji</strong>, a aplikacja otworzy Państwa pocztę wstępnie wypełnioną adresem <code>d.carvalho@l2concept.com</code>. Wystarczy zatwierdzić wysłanie.</span>
+      </li>
+      <li>
+        <span lang="fr"><strong>Impression / archivage :</strong> le catalogue est imprimable en PDF (<code>Cmd / Ctrl + P</code>). La barre de langue, les zones de saisie et le bouton d'envoi sont automatiquement masqués à l'impression.</span>
+        <span lang="pl"><strong>Drukowanie / archiwizacja:</strong> katalog można wydrukować jako PDF (<code>Cmd / Ctrl + P</code>). Pasek języka, pola tekstowe i przycisk wysyłki są automatycznie ukrywane przy drukowaniu.</span>
+      </li>
+    </ol>
+  </div>
+
+  <div class="signature">
+    <span lang="fr">Avec nos remerciements pour votre attention,<br><strong>Red White Group</strong> — Villa Goto</span>
+    <span lang="pl">Z góry dziękujemy za poświęconą uwagę,<br><strong>Red White Group</strong> — Villa Goto</span>
+  </div>
+</section>
 
 <nav class="toc">
   <h3>
